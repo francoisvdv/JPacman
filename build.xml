@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DOCTYPE project SYSTEM "lib/ant.dtd" -->
+
+<project name="jpacman" default="check">
+
+  <description>
+ 	ANT Build actions for Pacman.
+ 	Arie van Deursen, TU Delft / CWI.
+ 	Version: $Id: build.xml 5196 2012-01-31 07:14:14Z arievandeursen $
+  </description>
+  
+
+  <!-- 
+  Various properties steering the build process 
+  =============================================
+  -->
+
+  <!-- set global properties for this build -->
+    
+  <property name="version" value="4.4.5"/>
+  
+  <property name="lib.dir" value="lib"/>
+    
+  <!-- prefix used for all installed targets -->
+  <property name="prefix"  location="target"/>
+    
+  <!-- place to find the Java sources -->
+  <property name="src"   location="src/main/java"/>
+
+  <!-- place to find the test sources -->
+  <property name="testsrc"   location="src/test/java"/>
+
+  <!-- place to put the results of a build -->
+  <property name="build" location="${prefix}/classes"/>
+
+  <!-- place to put the results of compiling the test classes. -->
+  <property name="testclassesdir" location="${prefix}/test-classes"/>
+
+  <!-- place to put results of running all junit tests -->
+  <property name="testresults" location="${prefix}/test-reports"/>
+    
+  <!-- place to store coverage information -->
+  <property name="coverage.dir" location="${prefix}/coverage"/>
+        
+  <!-- place to put the distribution -->
+  <property name="dist"  location="${prefix}/distributions"/>
+    
+    
+  <!-- the JUnit binaries -->
+  <property name="junitjar" location="${lib.dir}/junit-4.8.2.jar"/> 
+   
+  <!-- name for the jar containing the binary distribution --> 
+  <property name="jpacmanjar" location="${dist}/jpacman-${version}.jar"/>
+
+  <!-- name for the jar containing the test suite binaries -->
+  <property name="jpacmantestjar" location="${dist}/jpacman-${version}-test.jar"/>
+
+  <!-- the main class to invoke the application -->
+  <property name="mainapp" value="jpacman.controller.Pacman"/>
+
+  <!-- the classpath used for building the jars -->
+  <path id="build.classpath"> 
+    <pathelement path="${build}"/>
+<!--
+    <pathelement path="${testclassesdir}"/>
+    <pathelement path="${junitjar}"/>
+-->
+  </path>
+
+  <!-- the class path used for build the test cases -->
+  <path id="test.classpath">
+    <pathelement path="${testclassesdir}"/>
+    <pathelement path="${build}"/>
+    <pathelement path="${junitjar}"/>
+  </path>
+
+  <!-- 
+  Initialization
+  ==============
+  -->
+
+  <target  name="init" description="create required directories">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${testclassesdir}"/>
+    <mkdir dir="${dist}"/>
+    <mkdir dir="${coverage.dir}"/>
+  </target>
+
+
+  <!-- 
+  Compile the Sources
+  ===================
+  -->
+  
+  <target 
+    name="compile"
+    depends="init"   
+    description="compile the Jpacman sources" 
+    >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac 
+      srcdir="${src}" 
+      destdir="${build}"
+      source="1.6" 
+      debug="true"
+      includeAntRuntime="false"
+      >
+      <classpath refid="build.classpath"/>
+    </javac>
+    <copy todir="${build}">
+      <fileset dir="src/main/resources" includes="**/*.*"/>
+    </copy>
+  </target>    
+
+
+  <!-- 
+  Compile the test cases
+  ======================
+  -->
+
+  <target
+    name="compile-tests"
+    depends="compile"
+    description="compile the Jpacman test cases"
+    >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac 
+      srcdir="${testsrc}"
+      destdir="${testclassesdir}"
+      source="1.6" 
+      debug="true"
+      includeAntRuntime="false"
+      >
+      <classpath refid="test.classpath"/>
+    </javac>
+    <copy todir="${testclassesdir}">
+      <fileset dir="src/test/resources" includes="**/*.*"/>
+    </copy>
+  </target>
+  
+
+  <!-- 
+  Run the application
+  ===================
+  -->
+
+  <target 
+    name="jpacman"
+    depends="compile"
+    description="run Jpacman Swing UI"
+    >
+    <java fork="true" classname="${mainapp}">
+      <classpath refid="build.classpath"/>
+      <jvmarg value="-enableassertions"/>
+    </java>
+  </target>
+  
+
+  <!-- 
+  Run the test suite
+  ===================
+  -->
+
+  <target
+    name="check"
+    depends="compile-tests"
+    description="Testing Pacman"
+    >
+    <mkdir dir="${testresults}"/>
+    <junit printsummary="yes" showoutput="yes" fork="yes">
+      <classpath refid="test.classpath"/>
+      <jvmarg value="-enableassertions"/> 
+      <formatter type="brief" usefile="false"/>
+      <batchtest todir="${testresults}" >
+        <fileset dir="${testsrc}">
+          <include name="jpacman/TestAll.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <!-- 
+  Conduct coverage analysis with emma.
+  ====================================
+  -->
+  <!-- All libraries emma needs -->
+  <path id="emma.lib" >
+    <pathelement location="${lib.dir}/emma.jar" />
+    <pathelement location="${lib.dir}/emma_ant.jar" />
+    <pathelement location="${junitjar}"/>
+    <pathelement path="${build}"/>
+    <pathelement path="${testclassesdir}"/>
+  </path>
+
+  <!-- All source code emma needs -->
+  <path id="src.path">
+     <pathelement location="${src}"/>
+     <pathelement location="${testsrc}"/>
+  </path>
+  
+  <!-- Let ant know about Emma -->
+  <taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+
+  <!-- This actually instruments all libraries and all test cases, which isn't
+       necessary. This might be resolved by using 
+       Emma's off line mode instead: left as an optional exercise :-)
+  -->
+  <target name="echeck" depends="compile-tests" 
+       description="runs the test cases under Emma" >
+    <emmajava 
+      fork="true"
+      enabled="true" 
+      classname="jpacman.TestAll"
+      libclasspathref="emma.lib"
+      classpathref="test.classpath"
+   >
+      <sourcepath refid="src.path"/>
+      <jvmarg value="-enableassertions"/> 
+      <txt outfile="${coverage.dir}/coverage.txt"/>
+      <html outfile="${coverage.dir}/coverage.html"/>
+    </emmajava>
+  </target>
+
+  <target name="erun" depends="compile" 
+       description="runs the application under Emma" >
+    <emmajava 
+      fork="true"
+      enabled="true" 
+      classname="${mainapp}"
+      libclasspathref="emma.lib"
+      classpathref="build.classpath"
+   >
+      <sourcepath refid="src.path"/>
+      <jvmarg value="-enableassertions"/> 
+      <txt outfile="${coverage.dir}/coverage.txt"/>
+      <html outfile="${coverage.dir}/coverage.html"/>
+    </emmajava>
+  </target>
+
+
+
+  <!-- 
+  Create an executable jar
+  ========================
+  -->
+  <target name="jar" depends="compile" description="bundle classes in a jar">
+    <mkdir dir="${dist}"/>
+    <jar destfile="${jpacmanjar}"
+      basedir="${build}"
+      manifest="src/main/resources/META-INF/MANIFEST.MF"
+      index="true"
+      />
+  </target> 
+
+  <target name="testjar" depends="compile" description="bundle test classes in a jar">
+    <mkdir dir="${dist}"/>
+    <jar destfile="${jpacmantestjar}"
+      basedir="${testclassesdir}"
+      manifest="src/main/resources/META-INF/MANIFEST.MF"
+      index="true"
+      />
+  </target> 
+
+
+  <!-- 
+  Remove all target data.
+  ======================
+  -->
+  <target name="clean" description="Purges temporary files" >
+    <delete verbose="true" dir="${prefix}"/>
+  </target>
+
+  
+  <!-- 
+  Create a source distribution
+  ============================
+  -->
+  <target name="zip"
+    description="Build a source distribution of jpacman"
+    depends="init" >
+    <delete dir="${dist}/jpacman-${version}"/>
+    <mkdir dir="${dist}/jpacman-${version}"/>
+    <copy todir="${dist}/jpacman-${version}">
+      <fileset dir="." includes="src/**/*.*"/>
+      <fileset dir="." includes=".classpath"/>
+      <fileset dir="." includes=".project"/>
+      <fileset dir="." includes=".checkstyle"/>
+      <fileset dir="." includes=".pmd"/>
+      <fileset dir="." includes="*.xml"/>
+      <fileset dir="." includes="LICENSE.txt"/>
+      <fileset dir="." includes="README.txt"/>
+      <fileset dir="." includes="doc/p*.txt"/>
+      <fileset dir="." includes="doc/scenarios.txt"/>
+      <fileset dir="." includes="doc/*.xml"/>
+      <fileset dir="." includes="doc/*.xls"/>
+      <fileset dir="." includes="doc/*.pdf"/>
+      <fileset dir="." includes="${lib.dir}/*.*"/>
+    </copy>
+    <delete file="${dist}/jpacman-${version}-src.zip"/>
+    <zip basedir="${dist}"
+         destfile="${dist}/jpacman-${version}-src.zip">
+      <fileset dir="${dist}/jpacman-${version}" 
+               includes="${dist}/jpacman-${version}/**/*"/>
+    </zip>
+    <delete dir="${dist}/jpacman-${version}"/>
+  </target>
+
+
+	
+  <!--
+    Conduct a PMD coding quality check.
+    ===========================================
+   -->	
+  <path id="pmd.lib" >
+    <pathelement location="${lib.dir}/asm-3.1.jar" />
+    <pathelement location="${lib.dir}/jaxen-1.1.1.jar" />
+    <pathelement location="${lib.dir}/pmd-4.2.5.jar"/>
+  </path>
+
+  <taskdef name="pmd"
+    classname="net.sourceforge.pmd.ant.PMDTask"
+    classpathref="pmd.lib"/>
+  <target name="pmd">
+	<pmd shortFilenames="true">
+	  <ruleset>basic</ruleset>
+	  <ruleset>design</ruleset>
+	  <formatter type="text" toConsole="true"/>	
+	  <fileset dir="${src}" includes="**/*.java"/>
+	  <fileset dir="${testsrc}" includes="**/*.java"/>
+	</pmd>
+  </target>
+  
+ 
+    
+    
+  <property name="javadoc.dir" location="${prefix}/doc"/>
+  
+  <!-- 
+  doc
+  ==============
+  -->
+  <target name="doc" description="create documentation">
+    <javadoc
+        destdir="${javadoc.dir}"
+        windowtitle="JPacman Documentation"
+        >
+
+    <fileset dir="${src}" defaultexcludes="yes">
+        <include name="**/*.java"/>
+        <exclude name="src/test/**" />
+    </fileset>
+    </javadoc>
+  </target>
+  
+  
+  <taskdef resource="checkstyletask.properties"
+         classpath="lib/checkstyle-5.5-all.jar"/>
+         
+    <!-- 
+  checkstyle
+  ==============
+  -->
+  <target name="checkstyle" description="Check coding standards">
+    <checkstyle config="checkstyle.xml">
+        <fileset dir="src" includes="**/*.java"/>
+    </checkstyle>
+  </target>
+  
+  
+</project>

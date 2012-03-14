@@ -1,0 +1,174 @@
+JPacman Design Decisions
+Arie van Deursen, CWI & TUD, 2005-2008
+$Id: pacman-design.txt 4408 2011-03-25 20:38:07Z arievandeursen $
+
+D0. JPacman Design.
+This document contains the most important design decisions for the
+Pacman implementation.  These decisions deal with the package
+structure, the key classes contained in each package, design patterns
+used (most notably MVC and Observer), and the design of the underlying
+state machine.
+
+D1. Package Structure
+Pacman's architecture is setup according to the model-view controller
+architecture.  The model contains non-gui classes for the key pacman
+elements, such as the board itself and cell guests such as the player,
+monsters, and food.  The viewer contains a graphical representation of
+the board.  The controller contains the top level gui element as well
+as a controller to initiate monster moves.  Since in Java Swing the
+GUI controllers are integrated with the user interface, the actual
+implementation has merged the controller and viewer package into one
+package called "jpacman.controller".  All model classes are contained
+in a package called "jpacman.model".
+
+D2. Model Structure
+The model itself contains classes for the key concepts of a JPacman
+game.  These include:
+
+D2.1. The Board itself, which consists of a series of Cells.
+
+D2.2. Guests that can inhabit a cell. Guests can be static such as
+   Wall and Food, or a MovingGuest, for either the Player or a
+   Monster.
+
+D2.3. Moves themselves: since making a move is fairly complex
+   (depending on the type of the mover and the occupier of the target
+   cell), a separate abstraction is used distinguishing a PlayerMove
+   and a MonsterMove.  The corresponding decision table is implemented
+   by simulating a double dispatch mechanism in Java.  A Move object
+   can figure out whether a move is possible at all, what the moves'
+   effect will be (food that may be eaten, the player may die), and it
+   can actually conduct the move.  The Move class implements the
+   Command design pattern (Gamma et al).
+
+D2.4. The Game itself having associations with the actual Board,
+   Monsters, and the Player object, and which keeps track of the total
+   amount of food in the game.
+
+D2.5. The top level Engine that keeps track of the internal state of
+   the game.  The engine also adopts the Subject role of the Observer
+   design pattern and offers a Facade for inspecting the state of the
+   Game.
+
+D3. Engine State Diagram
+Implicit in the uses cases is a state machine indicating which user
+interaction is possible. This machine is implemented in a separate
+class, the Engine.  (Strictly speaking, the Engine could be merged
+with the Game class.  The tradeoff here is between separating the
+state machine from the rest of the functionality at the cost of having
+an extra class that has to do some additional forwarding.)  The states
+and events that are allowed are discussed below.
+
+D3.1. States
+The states distinguished include:
+  * Starting: initial state in which the game is waiting to be started.
+  * Playing: state in which the player and the monsters are making moves.
+  * Halted: state in which move making is temporarily suspended.
+  * Game over: super state containing two substates, Player Won and
+    Player Died, representing the two ways in which the game can end.
+    
+D3.2. Start
+The initial state is the Starting state.  The start event causes a
+transition to the Playing state.
+
+D3.3. Move Player
+As long as the engine is in the playing state, the player can make
+moves.  A player can move to an immediately adjacent cell,
+corresponding to an up, down, left or right move.  Moves to adjacent,
+empty cells are possible.  Other moves are impossible and are ignored.
+For the state machine, we distinguish moves that keep the game in the
+playing state, and moves that cause a transition to one of the game
+over states.
+
+D3.3.1. Keep on playing move
+If a move is possible, does not cause the player to die, and results
+in a number of points for the player less than the total amount of
+food, the move can be applied, and the machine remains in the Playing
+state.
+
+D3.3.2. Winning move
+If a move is possible, does not cause the player to die, and results
+in a total number of points for the player equal to the total amount
+of food in the game, the machine makes a transition to the Player Won
+state.
+
+D3.3.3. Killing move
+If a move is possible and causes the player to die (hitting upon a
+monster), the machine makes a transition to the Player Died state.
+
+D3.4. Monster move
+A move by a Monster is similar to a player move, except that a move over
+food leaves the food at its place.  If a monster attempts to move to the cell
+occupied by the player, the player dies and the game enters the player
+died state.  The engine remains in the Playing state if one of the
+monsters makes a non killing move.  Monster moves are triggered by a
+monster controller generating random moves at a specified interval,
+which runs in a separate thread.
+
+D3.5. Suspension
+From the playing state, the quit event suspends the game and brings
+the engine into the halted state.  A start event from the halted state
+re-activates the game and brings the game back into the playing state.
+
+D3.6. Restart
+The game over state is a super state for either a player won or
+a player died state. The only action that can done is to restart
+the game, which requires an initialization of the underlying data
+structures.
+
+
+
+D4. Graphical User Interface
+The GUI consists of the elements discussed below.
+
+D4.1.  The Board Viewer, which is a Java Swing JPanel used to
+  represent all the cells on the board, with specific representations
+  for the various types of inhabitants. For moving guests (the player
+  or the monsters) special gif pictures are used, whereas for static
+  guests (wall or food) colored squares are used.  The board viewer
+  implements the observer role, and is thus notified by the engine
+  about changes occuring on the board. Images are obtained from a
+  (stateful) image factory, which given a sequence number obtain the
+  next animation image to be displayed.
+  
+D4.2.  The Pacman User Interface, which is a Java Swing frame adding
+  buttons and other interactive user elements to the board viewer. The
+  corresponding class is capable of listening to mouse and keyboard
+  events, and maps these to the appropriate calls to the model
+  classes.  The user interface also displays the status and the amount
+  of food eaten -- to do so the observer pattern is used again.  The
+  GUI also provides an exit button, which allows the user to exit the
+  game at any time, independent of the state of the engine.
+  
+D4.3. Controllers: The main class of the application is the Pacman
+  class, which launches the Pacman User Interface as well as an Engine
+  and connects the two. Moreover it launches a MonsterController for
+  generating monster moves. The concrete MonsterController provided
+  presently is the Random Monster Mover, which at every tick picks a
+  random monster and lets it make a random move. It also launches a
+  separate Animator thread, which is used to trigger the next 
+  animation.
+  
+D5. Build Time Architecture.
+The directory structure of the pacman project follows the
+recommendations as used in standard maven projects. The distribution
+includes a build file required for ant 1.6.5, and project files as
+required by Eclipse 3.2, making it easy to extend pacman using any of
+these tools. Pacman makes use of the generics and attributes of Java
+1.5. Its test suite is based on JUnit 4, but is compatible with older
+versions of JUnit. Test coverage is measured using the open source 
+Emma coverage analyzer, as well as its Eclipse counter part eclemma.
+
+D6. Test Suite Design.
+The JPacman test suite is based on JUnit 4.
+Test coverage is measured using the open source Emma coverage analyzer,
+as well as its Eclipse counter part eclemma. Earlier versions of JPacman
+made use of clover.
+JPacman's design follows the model-view-controller paradigm. 
+Unit test classes are provided for most of the model functionality:
+in such a case the test class for class Foo is called FooTest.
+Furthermore, a GameTestCase class is provided, which offers a reusable
+fixture for a simple game that can be used for testing purposes.
+The acceptance test suite (described in a separate document) is
+implemented in the PacmanTest class, containing a seperate test
+method for each acceptance defined.

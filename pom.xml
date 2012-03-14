@@ -1,0 +1,219 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- $Id: pom.xml 5195 2012-01-31 07:07:52Z arievandeursen $ -->
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>jpacman</groupId>
+	<artifactId>jpacman</artifactId>
+	<packaging>jar</packaging>
+	<version>4.4.5</version>
+	<name>jpacman</name>
+	<url>http://www.st.ewi.tudelft.nl/~arie/</url>
+	<description>
+    	JPacman is a little game inspired by Pacman. 
+    	It is intended for educational purposes, showing how unit testing and software development can be done together in a typical Java project.
+    </description>
+	<issueManagement>
+		<system>yellowgrass</system>
+		<url>http://yellowgrass.org/project/jpacman</url>
+	</issueManagement>
+	<inceptionYear>2003</inceptionYear>
+	<organization>
+		<name>Delft University of Technology, EEMCS/ST/SE</name>
+		<url>http://www.se.ewi.tudelft.nl/</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<targetJdk>1.6</targetJdk>
+	</properties>
+
+
+	<developers>
+		<developer>
+			<id>arie</id>
+			<name>Arie van Deursen</name>
+			<email>arie.vanDeursen@tudelft.nl</email>
+			<url>http://www.st.ewi.tudelft.nl/~arie/</url>
+			<organization>SERG, TU Delft</organization>
+			<organizationUrl>http://www.se.ewi.tudelft.nl</organizationUrl>
+			<roles>
+				<role>Project Leader</role>
+				<role>Developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Gijs Peek</name>
+			<email>gijs.peek@gmail.com</email>
+		</contributor>
+		<contributor>
+			<name>Rien Korstanje</name>
+			<email>rien.korstanje@gmail.com</email>
+		</contributor>
+		<contributor>
+			<name>Alex Nederlof</name>
+			<email>alex@nederlof.com</email>
+			<url>http://twitter.com/alexnederlof</url>
+		</contributor>
+	</contributors>
+
+	<licenses>
+		<license>
+			<name>JPacman Educational Edition</name>
+			<url>LICENSE.txt</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>jpacman/TestAll.java</include>
+					</includes>
+					<!-- Assertions enabled by default. 
+					<argLine>-enableassertions</argLine>
+					--> 
+				</configuration>
+				<version>2.9</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+				<version>2.5.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>emma-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>instrument</goal>
+						</goals>
+					</execution>
+				</executions>
+				<version>1.0-alpha-3</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>jpacman.controller.Pacman</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<descriptors>
+						<descriptor>${basedir}/src-assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<configuration>
+					<linkJavadoc>true</linkJavadoc>
+				</configuration>
+				<version>2.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<configLocation>${basedir}/checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+			<plugin> <!-- JUnit report -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.6</version>
+			</plugin>
+			<!-- Note: enabling Emma as well as cobertura causes the site target to 
+				crash. -->
+			<!-- Emma coverage analysis <plugin> <groupId>org.codehaus.mojo</groupId> 
+				<artifactId>emma-maven-plugin</artifactId> </plugin> -->
+			<!-- Cobertura coverage analysis -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.5.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<rulesets>
+						<ruleset>/rulesets/basic.xml</ruleset>
+						<ruleset>/rulesets/design.xml</ruleset>
+					</rulesets>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+</project>
