@@ -19,7 +19,7 @@ public class CellTest
     /**
      * Width and height of test board to be used.
      */
-    private static final int WIDTH = 5, HEIGHT = 5;
+    private static final int WIDTH = 4, HEIGHT = 5;
 
     /**
      * The board the cells occur on.
