@@ -20,7 +20,7 @@ public class BoardTest
     /**
      * The width & height of the board to be used.
      */
-    private static final int WIDTH = 5, HEIGHT = 10;
+    private static final int WIDTH = 4, HEIGHT = 5;
 
     /**
      * The board to be used in the tests.
