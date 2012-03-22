@@ -152,15 +152,10 @@ public class Board
      */
     public boolean withinBorders(int x, int y)
     {
-         // TODO actual implementation left as an exercise.
         if(x >= 0 && x < width && y >= 0 && y < height) 
-        {
             return true;
-        }
-        else
-        {
-            return false;
-        }
+        
+        return false;
     }
 
     /**

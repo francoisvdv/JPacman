@@ -3,6 +3,7 @@ package jpacman.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeTrue;
+import static org.junit.Assert.assertFalse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +104,7 @@ public class BoardTest
      */
      @Test
     public void testFailingBoardAssumingAssertions()
-     {
+    {
         // only need to run this test if assertion
         // checking is enabled:
         assumeTrue(Board.class.desiredAssertionStatus());
@@ -118,6 +119,23 @@ public class BoardTest
         }
         assertTrue(failureGenerated);
     }
-    
-
+     
+     /**
+     * Here we test the withinBorders function.
+     */
+    @Test
+    public void testWithinBorders()
+    {
+        //in the middle of the board
+        assertTrue(theBoard.withinBorders(4, 4));
+        
+        //boundaries
+        assertTrue(theBoard.withinBorders(0, 0));
+        assertTrue(theBoard.withinBorders(4, 0));
+        assertTrue(theBoard.withinBorders(0, 9));
+        assertTrue(theBoard.withinBorders(4, 9));
+        
+        //outside of the board
+        assertFalse(theBoard.withinBorders(5, 10));
+    }
 }
