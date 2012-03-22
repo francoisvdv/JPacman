@@ -3,8 +3,6 @@ package jpacman.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -96,19 +94,19 @@ public class CellTest
     public void testTunnels()
     {
         //moving left through the wall
-        assertEquals(aBoard.getCell(0, 0).cellAtOffset(-1, 0),
-                aBoard.getCell(WIDTH-1, 0));
+        assertEquals(aBoard.getCell(WIDTH-1, 0), 
+                aBoard.getCell(0, 0).cellAtOffset(-1, 0));
         
         //moving right through the wall
-        assertEquals(aBoard.getCell(WIDTH-1, 0).cellAtOffset(1, 0),
-                aBoard.getCell(0, 0));
+        assertEquals(aBoard.getCell(0, 0),
+                aBoard.getCell(WIDTH-1, 0).cellAtOffset(1, 0));
         
         //moving up through the wall
-        assertEquals(aBoard.getCell(0, 0).cellAtOffset(0, -1),
-                aBoard.getCell(0, HEIGHT-1));
+        assertEquals(aBoard.getCell(0, HEIGHT-1), 
+                aBoard.getCell(0, 0).cellAtOffset(0, -1));
         
         //moving down through wall
-        assertEquals(aBoard.getCell(0, HEIGHT-1).cellAtOffset(0, 1),
-                aBoard.getCell(0, 0));
+        assertEquals(aBoard.getCell(0, 0), 
+                aBoard.getCell(0, HEIGHT-1).cellAtOffset(0, 1));
     }
 }
