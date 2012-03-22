@@ -222,11 +222,15 @@ public class Cell
     /**
     * Determine if the other cell is an immediate
     * neighbor of the current cell.
+    * @pre otherCell is not null
     * @param otherCell The cell to be checked if it is adjacent.
     * @return true iff the other cell is immediately adjacent.
     */
     public boolean adjacent(Cell otherCell)
     {
+        assert invariant();
+        assert otherCell != null;
+        
         int dx = Math.abs(otherCell.getX() - getX());
         int dy = Math.abs(otherCell.getY() - getY());
         if (dx != dy && ((dx == 1 && dy == 0) || (dx == 0 && dy == 1)))
