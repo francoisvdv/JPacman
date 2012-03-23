@@ -167,26 +167,31 @@ public class Cell
     }
 
     /**
-     * Return the cell located at position (x + dx, y + dy), or null if this
-     * cell would fall beyond the borders of the Board.
+     * Return the cell located at position (x + dx, y + dy). If the return cell
+     * would lie out of the board, we 'tunnel' to the corresponding opposite 
+     * side of the board and return that cell.
      *
      * @param dx
      *            The x offset
      * @param dy
      *            The y offset
-     * @return null or the cell at (x+dx,y+dy).
+     * @return the cell at (x+dx,y+dy) or if that's outside of the board the
+     * corresponding cell at the opposite of the board.
      */
     public Cell cellAtOffset(int dx, int dy)
     {
         assert invariant();
         Cell result = null;
-        int newx = x + dx;
-        int newy = y + dy;
-        if (getBoard().withinBorders(newx, newy))
-        {
-            result = getBoard().getCell(newx, newy);
-        }
+        int newx = (x + dx) % board.getWidth();
+        int newy = (y + dy) % board.getHeight();
         
+        if(newx < 0)
+            newx += board.getWidth();
+        if(newy < 0)
+            newy += board.getHeight();
+        
+        if (getBoard().withinBorders(newx, newy))
+            result = getBoard().getCell(newx, newy);
         
         assert invariant();
         return result;
