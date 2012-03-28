@@ -75,7 +75,7 @@ public class Cell
      */
      protected final boolean guestInvariant()
      {
-         return inhabitant != null && inhabitant.getLocation() == this;
+         return inhabitant == null || inhabitant.getLocation() == this;
      }
 
 

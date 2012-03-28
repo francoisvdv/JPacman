@@ -48,13 +48,13 @@ public abstract class Guest
     }
 
      /**
-      * This should always hold. If a guest is in a Cell, the Cell should also
-      * know it has this guest.
+      * This should always hold. If a Guest is in a Cell, the Cell should also
+      * know it has this Guest.
       * @return true iff invariant holds.
       */
     protected final boolean guestInvariant()
     {
-        return location != null && location.contains(this);
+        return location == null || location.contains(this);
     }
 
 
