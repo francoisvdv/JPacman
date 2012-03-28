@@ -48,12 +48,18 @@ public abstract class Guest
     }
 
      /**
-      * Actual invariant left as an exercise.
+      * This should always hold.
       * @return true iff invariant holds.
       */
      protected final boolean guestInvariant()
      {
-         return true;
+         if(location == null)
+             return true;
+         
+         if(location.contains(this))
+             return true;
+         
+         return false;
      }
 
 
