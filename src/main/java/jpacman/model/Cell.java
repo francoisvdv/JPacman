@@ -69,13 +69,13 @@ public class Cell
     }
 
      /**
-     * TODO Invent invariant for the guest association?
-     *
+     * This should always hold. If this Cell has a Guest, the Guest should also
+     * know it belongs to this Cell.
      * @return true for the time being.
      */
      protected final boolean guestInvariant()
      {
-         return true;
+         return inhabitant != null && inhabitant.getLocation() == this;
      }
 
 
