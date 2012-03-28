@@ -190,8 +190,9 @@ public class Cell
         if(newy < 0)
             newy += board.getHeight();
         
-        if (getBoard().withinBorders(newx, newy))
-            result = getBoard().getCell(newx, newy);
+        assert getBoard().withinBorders(newx, newy);
+        
+        result = getBoard().getCell(newx, newy);
         
         assert invariant();
         return result;
