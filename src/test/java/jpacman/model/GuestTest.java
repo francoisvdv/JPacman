@@ -104,4 +104,23 @@ public class GuestTest
         }
         assertTrue(failureGenerated);
     }
+    
+    @Test
+    public void testAddGuest()
+    {
+        // only need to run this test if assertion
+        // checking is enabled:
+        assumeTrue(Guest.class.desiredAssertionStatus());
+        boolean failureGenerated;
+        try
+        {
+            theCell.addGuest(theGuest);
+            
+            failureGenerated = false;
+        } catch (AssertionError ae)
+        {
+            failureGenerated = true;
+        }
+        assertTrue(failureGenerated);       
+    }
 }
