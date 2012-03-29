@@ -6,7 +6,9 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.core.IsNull.nullValue;
-
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the Cell Guest association.
@@ -64,7 +66,26 @@ public class GuestTest
         assertThat(theGuest.getLocation(), nullValue());
     }
 
-
+    @Test
+    public void testOccupyDeoccupy()
+    {
+        //Testing the adding of a guest
+        theGuest.occupy(theCell);
+        assertTrue(theCell.contains(theGuest));
+        assertEquals(theGuest.getLocation(), theCell);
+        
+        theGuest.deoccupy();
+        assertFalse(theCell.contains(theGuest));
+        assertEquals(theGuest.getLocation(), null);
+        
+        theGuest.occupy(theCell);
+        assertTrue(theCell.contains(theGuest));
+        assertEquals(theGuest.getLocation(), theCell);
+        
+        theGuest.deoccupy();
+        assertFalse(theCell.contains(theGuest));
+        assertEquals(theGuest.getLocation(), null);
+    }
     
     
 }
