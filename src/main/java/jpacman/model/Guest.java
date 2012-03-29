@@ -70,6 +70,7 @@ public abstract class Guest
      * Occupy a non-null, empty cell.
      * @pre     The current Guest must not
      * have occupied another cell, and the target cell should be empty.
+     * aCell can't be null.
      * @post    Both the cell and the guest
      * have changed their pointers to reflect the occupation.
      *
@@ -80,6 +81,7 @@ public abstract class Guest
     {
         assert guestInvariant();
 
+        assert aCell != null;
         assert !aCell.contains(this);
         assert location == null;
         
@@ -102,12 +104,20 @@ public abstract class Guest
     public void deoccupy()
     {
         assert guestInvariant();
+        
+        assert location != null;
+        assert location.contains(this);
+        
         // Save the old location so we can free it after resetting ourselves
         Cell oldLocation = location;
         // Reset the guest's pointer
         location = null;
         // Reset the cell's guest association.
         oldLocation.removeGuest(this);
+        
+        assert location == null;
+        assert !oldLocation.contains(this);
+        
         assert guestInvariant();
     }
 

@@ -96,10 +96,9 @@ public class Cell
      * Modify the guest of this cell. This method is needed by the Guest's
      * occupy method which keeps track of the links in the Cell-Guest
      * association.
-     * Precondition: the guest's location should be set at this Cell,
+     * @pre The guest's location should be set at this Cell,
      * and the current cell should not be occupied already
      * by some other guest.
-     * <p>
      * Observe that the
      * class invariant doesn't hold at method entry -- therefore it's not a
      * public method. On method exit, however, it is valid again.
@@ -109,16 +108,19 @@ public class Cell
      */
     protected void addGuest(Guest aGuest)
     {
+        assert aGuest.getLocation() == this;
+        assert inhabitant == null;
+        
         inhabitant = aGuest;
     }
 
     
     /**
-     * Remove the inhabitant from this Cell. This method assumes (precondition)
-     * that the cell indeed contains this guests, and that the inhabitant (guest)
-     * has already removed its link to this cell.
+     * Remove the inhabitant from this Cell.
      * (Only) to be used by Guest.deoccupy().
-     * <p>
+     * @pre This method assumes that the cell indeed contains this guests, and
+     * that the inhabitant (guest) has already removed its link to this cell.
+     * 
      * Upon method entry, the class invariant doesn't hold, but on
      * method exit it does.
      *
@@ -126,6 +128,8 @@ public class Cell
      */
     void removeGuest(Guest aGuest)
     {
+        assert inhabitant == aGuest;
+        
         inhabitant = null;
     }
 
