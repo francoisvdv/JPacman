@@ -9,6 +9,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * Test the Cell Guest association.
@@ -69,7 +70,6 @@ public class GuestTest
     @Test
     public void testOccupyDeoccupy()
     {
-        //Testing the adding of a guest
         theGuest.occupy(theCell);
         assertTrue(theCell.contains(theGuest));
         assertEquals(theGuest.getLocation(), theCell);
@@ -85,7 +85,23 @@ public class GuestTest
         theGuest.deoccupy();
         assertFalse(theCell.contains(theGuest));
         assertEquals(theGuest.getLocation(), null);
+        
+        // only need to run this test if assertion
+        // checking is enabled:
+        assumeTrue(Guest.class.desiredAssertionStatus());
+        boolean failureGenerated;
+        try
+        {
+            theGuest.occupy(theCell);
+            theGuest.occupy(theCell);
+            
+            theGuest.deoccupy();
+            theGuest.deoccupy();
+            failureGenerated = false;
+        } catch (AssertionError ae)
+        {
+            failureGenerated = true;
+        }
+        assertTrue(failureGenerated);
     }
-    
-    
 }
