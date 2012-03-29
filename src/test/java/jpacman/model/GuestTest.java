@@ -123,4 +123,14 @@ public class GuestTest
         }
         assertTrue(failureGenerated);       
     }
+    
+    @Test
+    public void testMultipleGuests()
+    {
+        theGuest.occupy(theCell);
+        anotherGuest.occupy(theCell);
+        
+        assertTrue(theCell.contains(theGuest));
+        assertTrue(theCell.contains(anotherGuest));
+    }
 }
