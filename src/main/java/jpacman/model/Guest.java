@@ -68,9 +68,9 @@ public abstract class Guest
 
     /**
      * Occupy a non-null, empty cell.
-     * Precondition: the current Guest must not
+     * @pre     The current Guest must not
      * have occupied another cell, and the target cell should be empty.
-     * Postcondition: both the cell and the guest
+     * @post    Both the cell and the guest
      * have changed their pointers to reflect the occupation.
      *
      * @param aCell
@@ -80,9 +80,15 @@ public abstract class Guest
     {
         assert guestInvariant();
 
+        assert !aCell.contains(this);
+        assert location == null;
+        
         location = aCell;
         aCell.addGuest(this);
 
+        assert aCell.contains(this);
+        assert location != null;
+        
         assert guestInvariant();
     }
 
