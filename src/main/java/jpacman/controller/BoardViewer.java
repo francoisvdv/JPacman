@@ -214,10 +214,10 @@ public class BoardViewer extends JPanel
                 2 * CELL_VGAP + (cellHeight() + CELL_VGAP) * y);
         Rectangle rect = new Rectangle(loc, dim);
         g2.setColor(Color.blue);
-        g2.draw(rect);        
+        g2.draw(rect);
         
         char[] guestCodes = engine.getGuestCodes(x, y);
-        
+
         for(char gc : guestCodes)
         {
             Color fillColor = guestColor(gc);

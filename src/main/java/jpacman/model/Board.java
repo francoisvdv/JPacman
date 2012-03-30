@@ -138,10 +138,20 @@ public class Board
 
         ArrayList<Guest> guests = getGuests(x, y);
         
-        char[] result = new char[guests.size()];
-        for(int i = 0; i < result.length; i++)
+        char[] result;
+        
+        if(guests.size() > 0)
         {
-            result[i] = guests.get(i).guestType();
+            result = new char[guests.size()];
+            for(int i = 0; i < result.length; i++)
+            {
+                result[i] = guests.get(i).guestType();
+            }
+        }
+        else
+        {
+            result = new char[1];
+            result[0] = Guest.EMPTY_TYPE;
         }
         
         assert invariant();
