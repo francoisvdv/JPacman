@@ -274,8 +274,6 @@ public class Game
                 : "all lines in map should be of equal length.";
             for (int x = 0; x < width; x++)
             {
-                assert getBoard().getGuest(x, y) == null
-                    : "only empty cells can be filled.";
                 addGuestFromCode(map[y].charAt(x), x, y);
             }
         }
@@ -414,8 +412,8 @@ public class Game
      * @param y y-coordinate of guest
      * @return Character representing guest at x,y
      */
-    public char getGuestCode(int x, int y)
+    public char[] getGuestCodes(int x, int y)
     {
-        return getBoard().guestCode(x, y);
+        return getBoard().guestCodes(x, y);
     }
 }

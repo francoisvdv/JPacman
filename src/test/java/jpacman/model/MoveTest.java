@@ -62,7 +62,7 @@ public abstract class MoveTest extends GameTestCase
         // status before.
         assertTrue(getMove().movePossible());
         assertEquals(location1, mover.getLocation());
-        assertEquals(mover, location1.getInhabitant());
+        assertEquals(mover, location1.getGuests().get(0));
 
         // do the move.
         getMove().apply();
@@ -70,7 +70,7 @@ public abstract class MoveTest extends GameTestCase
         assertNotNull(location2);
         assertFalse(location1.contains(mover));
         assertEquals(getEmptyCell(), location2);
-        assertEquals(mover, location2.getInhabitant());
+        assertEquals(mover, location2.getGuests().get(0));
         assertTrue(getMove().moveDone());
         assertFalse(getMove().movePossible());
 

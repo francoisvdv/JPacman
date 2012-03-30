@@ -67,12 +67,11 @@ public abstract class Guest
     }
 
     /**
-     * Occupy a non-null, empty cell.
-     * @pre     The current Guest must not
-     * have occupied another cell, and the target cell should be empty.
+     * Occupy a Cell with this Guest.
+     * @pre The current Guest must not have occupied another cell.
      * aCell can't be null.
-     * @post    Both the cell and the guest
-     * have changed their pointers to reflect the occupation.
+     * @post Both the cell and the guest have changed their pointers to
+     * reflect the occupation.
      *
      * @param aCell
      *            New location for this guest.
@@ -95,11 +94,10 @@ public abstract class Guest
     }
 
     /**
-     * Remove the guest from the cell it occupies.
-     * The method assumes the guest is occupying a cell,
+     * Remove the Guest from the Cell it occupies.
+     * The method assumes the Guest is occupying a cell,
      * and ensures it does not do so anymore after the method
-     * has been called. Also the formerly occupied cell
-     * is empty afterwards.
+     * has been called.
      */
     public void deoccupy()
     {

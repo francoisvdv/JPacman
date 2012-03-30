@@ -281,11 +281,11 @@ public class Engine extends Observable
      *            Y coordinate
      * @return Type code of the guest.
      */
-    public char getGuestCode(int x, int y)
+    public char[] getGuestCodes(int x, int y)
     {
         synchronized (this)
         {
-            return getGame().getGuestCode(x, y);
+            return getGame().getGuestCodes(x, y);
         }
     }
 

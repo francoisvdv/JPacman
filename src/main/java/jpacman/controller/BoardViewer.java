@@ -214,26 +214,33 @@ public class BoardViewer extends JPanel
                 2 * CELL_VGAP + (cellHeight() + CELL_VGAP) * y);
         Rectangle rect = new Rectangle(loc, dim);
         g2.setColor(Color.blue);
-        g2.draw(rect);
-        Color fillColor = guestColor(x, y);
-        Image img = guestImage(x, y);
+        g2.draw(rect);        
+        
+        char[] guestCodes = engine.getGuestCodes(x, y);
+        
+        for(char gc : guestCodes)
+        {
+            Color fillColor = guestColor(gc);
+            Image img = guestImage(gc);
 
-        if (img == null)
-        {
-            assert fillColor != null;
-            g2.setColor(fillColor);
-            if (engine.getGuestCode(x, y) == Guest.FOOD_TYPE)
+            if (img == null)
             {
-                g2.setColor(Color.black);
+                assert fillColor != null;
+                g2.setColor(fillColor);
+                if (gc == Guest.FOOD_TYPE)
+                {
+                    g2.setColor(Color.black);
+                    g2.fill(rect);
+                    g2.setColor(Color.orange);
+                    rect = centeredRectangle(x, y, 2);
+                }
                 g2.fill(rect);
-                g2.setColor(Color.orange);
-                rect = centeredRectangle(x, y, 2);
+            } else
+            {
+                g2.drawImage(img, loc.x, loc.y, this);            
             }
-            g2.fill(rect);
-        } else
-        {
-            g2.drawImage(img, loc.x, loc.y, this);            
         }
+
     }
     
     /**
@@ -265,19 +272,19 @@ public class BoardViewer extends JPanel
      * @return the appropriate image for the content
      * of the cell at (x,y).
      */
-    Image guestImage(int x, int y)
+    Image guestImage(char guestCode)
     {
         Image img = null;
         if (imageFactory != null)
         {
-            if (engine.getGuestCode(x, y) == Guest.PLAYER_TYPE)
+            if (guestCode == Guest.PLAYER_TYPE)
             {
                 img = imageFactory.player(
                         engine.getPlayerLastDx(),
                         engine.getPlayerLastDy(),
                         animationCount);
             } 
-            if (engine.getGuestCode(x, y) == Guest.MONSTER_TYPE)
+            if (guestCode == Guest.MONSTER_TYPE)
             {
                 img = imageFactory.monster(animationCount);
             }
@@ -291,10 +298,10 @@ public class BoardViewer extends JPanel
      * @return the appropriate color for the content
      * of the cell at (x,y).
      */
-    Color guestColor(int x, int y)
+    Color guestColor(char guestCode)
     {
         Color c = null;
-        switch (engine.getGuestCode(x, y))
+        switch (guestCode)
         {
         case Guest.WALL_TYPE:
             c = Color.green;

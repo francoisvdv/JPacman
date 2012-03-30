@@ -92,8 +92,8 @@ public class BoardTest
         food.occupy(aCell);
 
         // verify its presence.
-        assertEquals(food, theBoard.getGuest(x, y));
-        assertEquals(Guest.FOOD_TYPE, theBoard.guestCode(x, y));
+        assertEquals(food, theBoard.getGuests(x, y).get(0));
+        assertEquals(Guest.FOOD_TYPE, theBoard.guestCodes(x, y)[0]);
     }
 
     /**

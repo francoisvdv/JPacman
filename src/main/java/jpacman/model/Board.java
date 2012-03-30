@@ -1,5 +1,7 @@
 package jpacman.model;
 
+import java.util.ArrayList;
+
 /**
  * Maintain a rectangular board of cells, potentially occupied by guests. After
  * the board has been created, the dimensions cannot be modified anymore. Guests
@@ -102,8 +104,10 @@ public class Board
     }
 
     /**
-     * Return the guest occupying position (x,y), or null if the cell is emtpy.
-     * Precondition: (x,y) falls wihtin the borders of the board.
+     * Return the Guests occupying position (x,y), or an empty list
+     * if the cell is emtpy.
+     * 
+     * @pre (x,y) falls wihtin the borders of the board.
      *
      * @param x
      *            Horizontal coordinate of the requested cell
@@ -111,15 +115,15 @@ public class Board
      *            Vertical coordinate of the requested cell
      * @return The guest at (x,y).
      */
-    public Guest getGuest(int x, int y)
+    public ArrayList<Guest> getGuests(int x, int y)
     {
         assert invariant();
         assert withinBorders(x, y);
-        return cellAt[x][y].getInhabitant();
+        return cellAt[x][y].getGuests();
     }
 
     /**
-     * Return the guest code of the cell at (x,y).
+     * Returns the Guest codes of the cell at (x,y).
      *
      * @param x
      *            Horizontal position
@@ -127,16 +131,19 @@ public class Board
      *            Vertical position
      * @return Code representing guest type
      */
-    public char guestCode(int x, int y)
+    public char[] guestCodes(int x, int y)
     {
         assert invariant();
         assert withinBorders(x, y);
-        char result = Guest.EMPTY_TYPE;
-        Guest guest = getGuest(x, y);
-        if (guest != null)       
+
+        ArrayList<Guest> guests = getGuests(x, y);
+        
+        char[] result = new char[guests.size()];
+        for(int i = 0; i < result.length; i++)
         {
-            result = guest.guestType();
+            result[i] = guests.get(i).guestType();
         }
+        
         assert invariant();
         return result;
     }
@@ -191,7 +198,7 @@ public class Board
         {
             for (int x = 0; x < width; x++)
             {
-                result += guestCode(x, y);
+                result += guestCodes(x, y);
             }
             result += "\n";
         }

@@ -1,5 +1,7 @@
 package jpacman.model;
 
+import java.util.ArrayList;
+
 
 
 /**
@@ -25,10 +27,9 @@ public class Cell
     private final Board board;
 
     /**
-     * The guest occupying the cell, null if not occupied.
+     * The guests occupying the cell.
      */
-    private Guest inhabitant = null;
-    
+    private ArrayList<Guest> guests = new ArrayList<Guest>();
 
     /**
      * Create a new cell at a given position on the board.
@@ -75,33 +76,36 @@ public class Cell
      */
      protected final boolean guestInvariant()
      {
-         return inhabitant == null || inhabitant.getLocation() == this;
+         for(Guest g : guests)
+         {
+             if(g.getLocation() != this)
+                 return false;
+         }
+         
+         return true;
      }
 
 
 
     /**
-     * Return the inhabitant of this cell.
+     * Return the inhabitants of this cell.
      *
      * @return The (most recent) Guest hosted by this Cell, 
      *         or null if the Cell is free.
      */
-    public Guest getInhabitant()
+    public ArrayList<Guest> getGuests()
     {
-         return inhabitant;
+         return guests;
     }
 
 
     /**
-     * Modify the guest of this cell. This method is needed by the Guest's
+     * Add a Guest to this cell. This method is needed by the Guest's
      * occupy method which keeps track of the links in the Cell-Guest
-     * association.
-     * @pre The guest's location should be set at this Cell,
-     * and the current cell should not be occupied already
-     * by some other guest.
-     * Observe that the
-     * class invariant doesn't hold at method entry -- therefore it's not a
-     * public method. On method exit, however, it is valid again.
+     * association. If the Guest is already in the Cell, it isn't added again -
+     * nothing happens.
+     * 
+     * @pre The Guest's location should be set to this Cell.
      *
      * @param aGuest
      *            The new guest of this cell.
@@ -109,28 +113,29 @@ public class Cell
     protected void addGuest(Guest aGuest)
     {
         assert aGuest.getLocation() == this;
-        assert inhabitant == null;
         
-        inhabitant = aGuest;
+        if(!guests.contains(aGuest))
+            guests.add(aGuest);
     }
 
     
     /**
-     * Remove the inhabitant from this Cell.
-     * (Only) to be used by Guest.deoccupy().
-     * @pre This method assumes that the cell indeed contains this guests, and
-     * that the inhabitant (guest) has already removed its link to this cell.
+     * Remove the specified Guest from this Cell. (Only) to be used by
+     * Guest.deoccupy(). If this Cell doesn't contain the Guest, nothing
+     * happens.
      * 
-     * Upon method entry, the class invariant doesn't hold, but on
-     * method exit it does.
+     * @pre This method assumes that that the Guest has already removed its
+     * link to this Cell. aGuest must not be null.
      *
      * @param aGuest The guest to be removed.
      */
     void removeGuest(Guest aGuest)
     {
-        assert inhabitant == aGuest;
+        assert aGuest != null;
+        assert aGuest.getLocation() == null;
         
-        inhabitant = null;
+        if(guests.contains(aGuest))
+            guests.remove(aGuest);
     }
 
     
@@ -138,13 +143,15 @@ public class Cell
      * Determine if the guest is one of the inhabitants
      * of this cell.
      * 
+     * @pre aGuest is not null.
      * @param aGuest Guest that may be here
      * @return true iff aGuest is on this cell.
      */
     public boolean contains(Guest aGuest)
     {
         assert aGuest != null;
-         return aGuest.equals(inhabitant);
+        
+        return guests.contains(aGuest);
     }
 
 
@@ -221,12 +228,17 @@ public class Cell
     public String toString()
     {
         final String location = "[" + x + "," + y + "]";
-        char inh = Guest.EMPTY_TYPE;
-        if (getInhabitant() != null)
+        String inhabitants = "";
+
+        for(Guest g : guests)
         {
-            inh = getInhabitant().guestType();
+            inhabitants += g.guestType() + " ";
         }
-        return inh + "@" + location;
+        
+        if(inhabitants.isEmpty())
+            inhabitants = String.valueOf(Guest.EMPTY_TYPE);
+        
+        return inhabitants + "@ " + location;
     }
     
     /**

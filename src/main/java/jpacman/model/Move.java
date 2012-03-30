@@ -1,5 +1,7 @@
 package jpacman.model;
 
+import java.util.ArrayList;
+
 /**
  * A potential move from one cell to another. The responsibilities of this class
  * include indicating the effect of the move (player dies, player wins, ...),
@@ -95,17 +97,16 @@ public abstract class Move
     {
         assert moveInvariant();
         assert !isInitialized() : "Can't re-initialize the move.";
-        boolean cellAvailable = false;
+        boolean cellAvailable = true;
         if (withinBorder())
         {
             assert to != null;
-            Guest targetGuest = to.getInhabitant();
-            if (targetGuest == null)
+
+            ArrayList<Guest> targetGuests = to.getGuests();
+            for(Guest g : targetGuests)
             {
-                cellAvailable = true;
-            } else
-            {
-                cellAvailable = tryMoveToGuest(targetGuest);
+                if(tryMoveToGuest(g) == false)
+                    cellAvailable = false;
             }
         }
         this.targetCellOK = cellAvailable;

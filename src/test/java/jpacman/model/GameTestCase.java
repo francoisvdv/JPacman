@@ -86,9 +86,9 @@ public class GameTestCase
         playerCell = theBoard.getCell(1, 1);
         emptyCell = theBoard.getCell(2, 1);
 
-        theFood = (Food) foodCell.getInhabitant();
+        theFood = (Food)foodCell.getGuests().get(0);
         thePlayer = theGame.getPlayer();
-        theMonster = (Monster) monsterCell.getInhabitant();
+        theMonster = (Monster) monsterCell.getGuests().get(0);
     }
 
     /**
@@ -100,22 +100,22 @@ public class GameTestCase
      */
     protected void checkBoardSanity()
     {
-        assertTrue(wallCell.getInhabitant() instanceof Wall);
-        assertEquals(Guest.WALL_TYPE, wallCell.getInhabitant().guestType());
- 
-        assertTrue(monsterCell.getInhabitant() instanceof Monster);
+        assertTrue(wallCell.getGuests().get(0) instanceof Wall);
+        assertEquals(Guest.WALL_TYPE, wallCell.getGuests().get(0).guestType());
+
+        assertTrue(monsterCell.getGuests().get(0) instanceof Monster);
         assertEquals(Guest.MONSTER_TYPE,
-                monsterCell.getInhabitant().guestType());
+                monsterCell.getGuests().get(0).guestType());
 
-        assertTrue(playerCell.getInhabitant() instanceof Player);
+        assertTrue(playerCell.getGuests().get(0) instanceof Player);
         assertEquals(Guest.PLAYER_TYPE,
-                playerCell.getInhabitant().guestType());
+                playerCell.getGuests().get(0).guestType());
 
-        assertTrue(foodCell.getInhabitant() instanceof Food);
+        assertTrue(foodCell.getGuests().get(0) instanceof Food);
         assertEquals(Guest.FOOD_TYPE,
-                foodCell.getInhabitant().guestType());
+                foodCell.getGuests().get(0).guestType());
 
-        assertNull(emptyCell.getInhabitant());
+        assertTrue(emptyCell.getGuests().isEmpty());
 
         assertTrue(theGame.getMonsters().contains(theMonster));
         assertEquals(2, theGame.getMonsters().size());
