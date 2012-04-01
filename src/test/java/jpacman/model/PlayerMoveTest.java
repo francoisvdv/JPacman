@@ -57,11 +57,16 @@ public class PlayerMoveTest extends MoveTest
         return getMove();
     }
 
+    @Test
+    public void testOutOfBorderMove()
+    {
+        
+    }
+    
     /** Test the player colliding with Food */
     @Test
     public void testFoodCollision()
     {
-        //Collision with food
         PlayerMove playerMove = createMove(getFoodCell());
         assertFalse(playerMove.playerWillDie());
         assertTrue(playerMove.movePossible());
@@ -78,7 +83,6 @@ public class PlayerMoveTest extends MoveTest
     @Test
     public void testMonsterCollision()
     {        
-        //Collision with monster
         PlayerMove playerMove = createMove(getMonsterCell());
         assertTrue(playerMove.playerWillDie());
         assertFalse(playerMove.movePossible());
@@ -93,7 +97,6 @@ public class PlayerMoveTest extends MoveTest
     @Test
     public void testPlayerCollision()
     {
-        //Collision with another player
         PlayerMove playerMove = createMove(getPlayerCell());
         assertFalse(playerMove.playerWillDie());
         assertFalse(playerMove.movePossible());
@@ -106,7 +109,6 @@ public class PlayerMoveTest extends MoveTest
     @Test
     public void testWallCollision()
     {
-        //Collision with wall
         PlayerMove playerMove = createMove(getWallCell());
         assertFalse(playerMove.playerWillDie());
         assertFalse(playerMove.movePossible());

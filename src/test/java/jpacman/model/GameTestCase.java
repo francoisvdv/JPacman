@@ -106,7 +106,7 @@ public class GameTestCase
         assertTrue(monsterCell.getGuests().get(0) instanceof Monster);
         assertEquals(Guest.MONSTER_TYPE,
                 monsterCell.getGuests().get(0).guestType());
-
+        
         assertTrue(playerCell.getGuests().get(0) instanceof Player);
         assertEquals(Guest.PLAYER_TYPE,
                 playerCell.getGuests().get(0).guestType());
@@ -146,6 +146,16 @@ public class GameTestCase
     }
 
     /**
+     * @pre index < monster count in game
+     * @return One (fixed) of the monsters in the game.
+     */
+    public Monster getMonster(int index)
+    {
+        assert index < theGame.getMonsters().size();
+        return theGame.getMonsters().get(index);
+    }
+    
+    /**
      * @return A (fixed) food element in the game.
      */
     public Food getTheFood()
@@ -168,7 +178,7 @@ public class GameTestCase
     {
         return wallCell;
     }
-
+    
     /**
      * @return The location of the given monster.
      */
@@ -176,7 +186,18 @@ public class GameTestCase
     {
         return monsterCell;
     }
+    
+    /**
+     * @ pre index < monster count in game
+     * @return The location of the given monster.
+     */
+    public Cell getMonsterCell(int index)
+    {
+        assert index < theGame.getMonsters().size();
+        return getMonster(index).getLocation();
+    }
 
+    
     /**
      * @return The locatiation of the given food element.
      */
