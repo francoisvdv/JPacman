@@ -46,8 +46,8 @@ public class MonsterMove extends Move
     }
 
     /**
-     * Attempt to move the player towards a target guest.
-     * @param targetGuest The guest that the player will meet.
+     * Attempt to move the monster towards a target guest.
+     * @param targetGuest The guest that the monster will meet.
      * @return true if the move is possible, false otherwise.
      * @see jpacman.model.Move#tryMoveToGuest(jpacman.model.Guest)
      */
@@ -57,7 +57,7 @@ public class MonsterMove extends Move
         assert tryMoveToGuestPrecondition(targetGuest)
             : "percolated precondition";
 
-        return true;// targetGuest.meetPlayer(this);
+        return targetGuest.meetMonster(this);
     }
 
     /**

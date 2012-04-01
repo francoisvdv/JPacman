@@ -304,7 +304,30 @@ public class Game
         assert invariant();
     }
 
-
+    /**
+     * Move the monster to offsets (x+dx,y+dy). If the move is not possible
+     * (wall, beyond borders), the move is not carried out. Precondition:
+     * initialized and game isn't over yet. Postcondition: if the move is
+     * possible, it has been carried out, and the game has been updated to
+     * reflect the new situation.
+     *
+     * @param dx
+     *            Horizontal movement
+     * @param dy
+     *            Vertical movement
+     */
+    protected void moveMonster(Monster monster, int dx, int dy)
+    {
+        assert invariant();
+        assert !gameOver() : "can only move when game isn't over";
+        Cell targetCell =
+            monster.getLocation().cellAtOffset(dx, dy);
+        MonsterMove monsterMove = new MonsterMove(monster, targetCell);
+        applyMove(monsterMove);
+        assert invariant();
+    }
+    
+    
     /**
      * Actually apply the given move, if it is possible.
      * @param move The move to be made.

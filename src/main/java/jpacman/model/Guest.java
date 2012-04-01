@@ -135,6 +135,21 @@ public abstract class Guest
      */
     protected abstract boolean meetPlayer(PlayerMove aMove);
 
+    /**
+     * The monster would like to visit the cell occupied by this guest. Indicate
+     * whether this is possible, and modify the move's state to indicate what
+     * the effect of such a move would be. Precondition: the move object is non
+     * null and initializing.
+     * <p>
+     *
+     * @param aMove
+     *            theMove move object representing intended move and its
+     *            effects.
+     *
+     * @return True iff this guest has no objection to the monster taking his
+     *         place.
+     */
+    protected abstract boolean meetMonster(MonsterMove aMove);
 
     /**
      * Return a character code representing the type of guest.

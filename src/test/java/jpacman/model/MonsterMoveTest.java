@@ -98,14 +98,14 @@ public class MonsterMoveTest extends MoveTest
     {
         //A simple test for the helper function
                 
-        //assertFalse(getThePlayer().getLocation() == getEmptyCell());
-        //movePlayerToCell(getEmptyCell());
-        //assertEquals(getThePlayer().getLocation(), getEmptyCell());
+        assertFalse(getTheMonster().getLocation() == getEmptyCell());
+        moveMonsterToCell(getEmptyCell());
+        assertEquals(getTheMonster().getLocation(), getEmptyCell());
     }
     void moveMonsterToCell(Cell target)
     {
-        //getTheGame().movePlayer(
-                //target.getX() - getTheMonster().getLocation().getX(),
-                //target.getY() - getTheMonster().getLocation().getY());
+        getTheGame().moveMonster(getTheMonster(),
+                target.getX() - getTheMonster().getLocation().getX(),
+                target.getY() - getTheMonster().getLocation().getY());
     }
 }

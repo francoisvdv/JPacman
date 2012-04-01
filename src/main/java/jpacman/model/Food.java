@@ -77,6 +77,23 @@ public class Food extends Guest
         return true;
     }
 
+    /**
+     * The monster wants to enter this food cell. Precondition: the move is in 
+     * its initialization stage.
+     *
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
+     * @param theMove the move the monster intends to do.
+     * @return True, since such a move is possible.
+     */
+    @Override
+    protected boolean meetMonster(MonsterMove theMove)
+    {
+        assert foodInvariant();
+        assert theMove != null;
+        assert !theMove.isInitialized();
+        return true;
+    }
+    
 
     /**
      * @see jpacman.model.Guest#guestType()
