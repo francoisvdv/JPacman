@@ -56,4 +56,79 @@ public class PlayerMoveTest extends MoveTest
         setMove(new PlayerMove(getThePlayer(), target));
         return getMove();
     }
+
+    /** Test the player colliding with Food */
+    @Test
+    public void testFoodCollision()
+    {
+        //Collision with food
+        PlayerMove playerMove = createMove(getFoodCell());
+        assertFalse(playerMove.playerWillDie());
+        assertTrue(playerMove.movePossible());
+        assertTrue(playerMove.getFoodEaten() > 0);
+        
+        int oldFoodEaten = getThePlayer().getPointsEaten();
+        
+        movePlayerToCell(getFoodCell()); //player should move
+        assertEquals(getThePlayer().getLocation(), getFoodCell());
+        
+        assertTrue(getThePlayer().getPointsEaten() > oldFoodEaten);
+    }
+    /** Test the player colliding with a Monster */
+    @Test
+    public void testMonsterCollision()
+    {        
+        //Collision with monster
+        PlayerMove playerMove = createMove(getMonsterCell());
+        assertTrue(playerMove.playerWillDie());
+        assertFalse(playerMove.movePossible());
+        
+        Cell oldLocation = getThePlayer().getLocation();
+        movePlayerToCell(getMonsterCell()); //player shouldn't move
+        assertEquals(oldLocation, getThePlayer().getLocation());
+        
+        assertFalse(getThePlayer().living());
+    }
+    /** Test the player colliding with another Player */
+    @Test
+    public void testPlayerCollision()
+    {
+        //Collision with another player
+        PlayerMove playerMove = createMove(getPlayerCell());
+        assertFalse(playerMove.playerWillDie());
+        assertFalse(playerMove.movePossible());
+        
+        Cell oldLocation = getThePlayer().getLocation();
+        movePlayerToCell(getPlayerCell()); //player shouldn't move
+        assertEquals(oldLocation, getThePlayer().getLocation());
+    }
+    /** Test the player colliding with a wall */
+    @Test
+    public void testWallCollision()
+    {
+        //Collision with wall
+        PlayerMove playerMove = createMove(getWallCell());
+        assertFalse(playerMove.playerWillDie());
+        assertFalse(playerMove.movePossible());
+        
+        Cell oldLocation = getThePlayer().getLocation();
+        movePlayerToCell(getPlayerCell()); //player shouldn't move
+        assertEquals(oldLocation, getThePlayer().getLocation());
+    }
+    
+    @Test
+    public void testMovePlayerToCell()
+    {
+        //A simple test for the helper function
+                
+        assertFalse(getThePlayer().getLocation() == getEmptyCell());
+        movePlayerToCell(getEmptyCell());
+        assertEquals(getThePlayer().getLocation(), getEmptyCell());
+    }
+    void movePlayerToCell(Cell target)
+    {
+        getTheGame().movePlayer(
+                target.getX() - getThePlayer().getLocation().getX(),
+                target.getY() - getThePlayer().getLocation().getY());
+    }
 }

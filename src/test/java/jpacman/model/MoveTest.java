@@ -50,7 +50,8 @@ public abstract class MoveTest extends GameTestCase
      * Note that the creation of the Move object itself
      * is deferred to subclasses via the createMove factory method.
      */
-    @Test public void testApply()
+    @Test
+    public void testApply()
     {
         // create move, mover, and cell to be moved to.
         createMove(getEmptyCell());
