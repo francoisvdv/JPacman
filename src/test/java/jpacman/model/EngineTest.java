@@ -1,5 +1,7 @@
 package jpacman.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -72,9 +74,8 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inPlayingState());
         assertTrue(theEngine.getPlayer().living());
         
-        //Let the player die:
-        movePlayerToCell(getMonsterCell());
-
+        killPlayerByPlayerMove();
+        
         assertFalse(theEngine.getPlayer().living());
         assertTrue(theEngine.inGameOverState());
         assertTrue(theEngine.inDiedState());
@@ -105,8 +106,7 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inPlayingState());
         assertTrue(theEngine.getPlayer().living());
         
-        //Let the player die:
-        moveMonsterToCell(getPlayerCell());
+        killPlayerByMonsterMove();
 
         assertFalse(theEngine.getPlayer().living());
         assertTrue(theEngine.inGameOverState());
@@ -130,11 +130,7 @@ public class EngineTest extends GameTestCase
         theEngine.start();
         assertTrue(theEngine.inPlayingState());
         
-        //Let the player win:
-        Cell foodCell1 = getTheGame().getBoard().getCell(0, 1);
-        Cell foodCell2 = getTheGame().getBoard().getCell(0, 2);
-        movePlayerToCell(foodCell1);
-        movePlayerToCell(foodCell2);
+        letPlayerWin();
         
         assertTrue(theEngine.getPlayer().living());
         assertTrue(getTheGame().playerWon());
@@ -143,6 +139,101 @@ public class EngineTest extends GameTestCase
         
         theEngine.start();
         assertTrue(theEngine.inStartingState());
+    }
+    
+    @Test
+    public void testImpossibleTransitions1()
+    {      
+        assertTrue(theEngine.inStartingState());
+        
+            //Starting -> Halted
+            theEngine.quit();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inStartingState());
+
+            //Starting -> Player died
+            killPlayerByPlayerMove();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inStartingState());
+        
+            //Starting -> Player won
+            letPlayerWin();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inStartingState());
+            
+        theEngine.start();
+        theEngine.quit();
+        assertTrue(theEngine.invariant());
+        assertTrue(theEngine.inHaltedState());
+        
+            //Halted -> Starting
+            //impossible through code
+
+            //Halted -> Player died
+            killPlayerByPlayerMove();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inHaltedState());
+
+            //Halted -> Player won
+            letPlayerWin();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inHaltedState());
+
+        theEngine.start();
+        assertTrue(theEngine.invariant());
+        assertTrue(theEngine.inPlayingState());
+        
+            //Playing -> Starting
+            //impossible by code
+        
+        killPlayerByPlayerMove();
+        assertTrue(theEngine.invariant());
+        assertTrue(theEngine.inDiedState());
+        
+            //Player died -> Halted
+            theEngine.quit();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inDiedState());
+            
+            //Player died -> Player won
+            letPlayerWin();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inDiedState());
+    }
+    
+    @Test
+    public void testImpossibleTransitions2()
+    {
+        theEngine.start();
+        letPlayerWin();
+        assertTrue(theEngine.invariant());
+        assertTrue(theEngine.inWonState());
+        
+            //Player won -> Halted
+            theEngine.quit();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inWonState());
+            
+            //Player won -> Player died
+            killPlayerByPlayerMove();
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inWonState());
+    }
+    
+    void letPlayerWin()
+    {
+        Cell foodCell1 = getTheGame().getBoard().getCell(0, 1);
+        Cell foodCell2 = getTheGame().getBoard().getCell(0, 2);
+        movePlayerToCell(foodCell1);
+        movePlayerToCell(foodCell2);
+    }
+    void killPlayerByMonsterMove()
+    {
+        moveMonsterToCell(getPlayerCell());
+    }
+    void killPlayerByPlayerMove()
+    {
+        movePlayerToCell(getMonsterCell());
     }
     
     @Test
