@@ -96,8 +96,6 @@ public class MonsterMoveTest extends MoveTest
     @Test
     public void testMoveMonsterToCell()
     {
-        //A simple test for the helper function
-                
         assertFalse(getTheMonster().getLocation() == getEmptyCell());
         moveMonsterToCell(getEmptyCell());
         assertEquals(getTheMonster().getLocation(), getEmptyCell());
