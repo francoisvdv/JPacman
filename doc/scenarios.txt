@@ -164,6 +164,28 @@ When  I hit the "Start" button;
 Then  a new JPacman game is started.
 
 
+STORY 7 -- UNDO A MOVE:
+As a player, 
+I want to undo my last move if the game is in game over or halted state;
+So that I can undo the bad moves I did.
+
+Scenario S7.1: The player is in game over state
+Given the game is in game over state;
+When  I press the undo button;
+Then  the game should undo my last move and go to the halted state
+
+Scenario S7.2: The game is halted
+Given the game is in halted state;
+When  I press the undo button;
+Then  the game should undo my last move and the game
+	should stay in halted state
+
+Scenario S7.3: The game is running
+Given the game is in playing state;
+When  I press the undo button;
+Then  nothing should happen.
+
+
 
 4. User Interface
 
