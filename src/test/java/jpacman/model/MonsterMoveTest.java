@@ -61,10 +61,11 @@ public class MonsterMoveTest extends MoveTest
     {        
         MonsterMove monsterMove = createMove(getMonsterCell(1));
         assertFalse(monsterMove.playerWillDie());
-        assertTrue(monsterMove.movePossible());
+        assertFalse(monsterMove.movePossible());
 
-        moveMonsterToCell(getMonsterCell(1)); //monster should move
-        assertEquals(getTheMonster().getLocation(), getMonsterCell(1));
+        Cell oldLocation = getTheMonster().getLocation();
+        moveMonsterToCell(getMonsterCell(1)); //monster shouldn't move
+        assertEquals(oldLocation, getTheMonster().getLocation());
     }
     /** Test the monster colliding with a Player */
     @Test

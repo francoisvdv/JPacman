@@ -42,7 +42,7 @@ public class Monster extends MovingGuest
      *
      * @param theMove
      *            move object representing intended move and its effects.
-     * @return true, monsters can move through each other.
+     * @return false, monsters can't move through each other
      *
      * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
      */
@@ -52,7 +52,7 @@ public class Monster extends MovingGuest
         assert guestInvariant();
         assert theMove != null;
         assert !theMove.isInitialized();
-        return true;
+        return false;
     }
     
     /**
