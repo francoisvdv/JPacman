@@ -246,8 +246,16 @@ public class Engine extends Observable
      */
     public void moveMonster(Monster monster, int dx, int dy) 
    {
-         // TODO monster moves not yet supported.
-
+        synchronized (this)
+        {
+            assert invariant();
+            if (inPlayingState())
+            {
+                theGame.moveMonster(monster, dx, dy);
+                notifyViewers();
+            }
+            assert invariant();
+        }
     }
 
 

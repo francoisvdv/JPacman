@@ -10,12 +10,12 @@ public class MonsterMove extends Move
 {
 
     /**
-     * The player wishing to move.
+     * The monster wishing to move.
      */
     private final Monster theMonster;
     
     /**
-     * Create a move for the given player to a given target cell.
+     * Create a move for the given monster to a given target cell.
      *
      * @param player
      *            the Player to be moved
@@ -34,8 +34,7 @@ public class MonsterMove extends Move
     }
 
     /**
-     * Verify that the food eaten remains non negative, the player/mover equal
-     * and non-null.
+     * Verify that the the monster/mover equal and non-null.
      *
      * @return true iff the invariant holds.
      */
@@ -63,7 +62,7 @@ public class MonsterMove extends Move
     /**
      * Return the monster initiating this move.
      *
-     * @return The moving player.
+     * @return The moving monster.
      */
     public Monster getMonster()
     {

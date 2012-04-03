@@ -38,14 +38,13 @@ public class Monster extends MovingGuest
     }
 
     /**
-     * The player decided to bumb into this monster. Modify the move's state
-     * reflecting the fact that this will cause the player to die.
+     * The monster decided to bumb into this monster.
      *
      * @param theMove
      *            move object representing intended move and its effects.
-     * @return false, the player cannot occupy the monster's cell.
+     * @return true, monsters can move through each other.
      *
-     * @see jpacman.model.Guest#meetPlayer(jpacman.model.PlayerMove)
+     * @see jpacman.model.Guest#meetMonster(jpacman.model.MonsterMove)
      */
     @Override
     protected boolean meetMonster(MonsterMove theMove)
