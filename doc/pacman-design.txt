@@ -116,6 +116,11 @@ a player died state. The only action that can done is to restart
 the game, which requires an initialization of the underlying data
 structures.
 
+D3.7. Undo
+Undo isn't a state itself, it's an action. It can be done from the
+halted or the game over state. Either way we go back to the halted
+state. A player move or a monster move is rolled back each time
+the user presses the undo button.
 
 
 D4. Graphical User Interface
