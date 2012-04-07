@@ -143,7 +143,7 @@ public class EngineTest extends GameTestCase
     }
     
     @Test
-    public void testImpossibleTransitions1()
+    public void testStateTransitions1()
     {      
         assertTrue(theEngine.inStartingState());
         
@@ -204,10 +204,12 @@ public class EngineTest extends GameTestCase
             //Undo from player died state
             theEngine.undoLastMove();
             //this didn't throw assertion error, so this is fine
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inHaltedState());
     }
     
     @Test
-    public void testImpossibleTransitions2()
+    public void testStateTransitions2()
     {
         theEngine.start();
         letPlayerWin();
@@ -227,10 +229,12 @@ public class EngineTest extends GameTestCase
             //Undo from player won state
             theEngine.undoLastMove();
             //didn't throw assertion error, so this is fine
+            assertTrue(theEngine.invariant());
+            assertTrue(theEngine.inHaltedState());
     }
     
     @Test
-    public void testImpossibleTransitions3()
+    public void testStateTransitions3()
     {
         //Undo from starting state
         boolean assertionFailed = false;
@@ -261,6 +265,8 @@ public class EngineTest extends GameTestCase
         movePlayerToCell(getEmptyCell());
         theEngine.undoLastMove();
         //didn't throw assertion error, so fine
+        assertTrue(theEngine.invariant());
+        assertTrue(theEngine.inHaltedState());
     }
     
     void letPlayerWin()
