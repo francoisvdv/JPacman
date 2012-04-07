@@ -105,7 +105,7 @@ public abstract class Move
             ArrayList<Guest> targetGuests = to.getGuests();
             for (Guest g : targetGuests)
             {
-                if (tryMoveToGuest(g) == false)
+                if (!tryMoveToGuest(g))
                     cellAvailable = false;
             }
         }
