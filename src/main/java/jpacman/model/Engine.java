@@ -271,6 +271,10 @@ public class Engine extends Observable
             assert inHaltedState() || inGameOverState();
             
             theGame.undoLastMove();
+            
+            //to make sure we stay in halted state:
+            quit();
+            
             notifyViewers();
             
             assert invariant();
