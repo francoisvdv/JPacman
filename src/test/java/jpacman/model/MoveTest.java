@@ -101,9 +101,9 @@ public abstract class MoveTest extends GameTestCase
         movePlayerToCell(getEmptyCell());
         assertEquals(getThePlayer().getLocation(), getEmptyCell());
     }
-    void movePlayerToCell(Cell target)
+    PlayerMove movePlayerToCell(Cell target)
     {
-        getTheGame().movePlayer(
+        return getTheGame().movePlayer(
                 target.getX() - getThePlayer().getLocation().getX(),
                 target.getY() - getThePlayer().getLocation().getY());
     }
@@ -115,9 +115,9 @@ public abstract class MoveTest extends GameTestCase
         moveMonsterToCell(getEmptyCell());
         assertEquals(getTheMonster().getLocation(), getEmptyCell());
     }
-    void moveMonsterToCell(Cell target)
+    MonsterMove moveMonsterToCell(Cell target)
     {
-        getTheGame().moveMonster(getTheMonster(),
+        return getTheGame().moveMonster(getTheMonster(),
                 target.getX() - getTheMonster().getLocation().getX(),
                 target.getY() - getTheMonster().getLocation().getY());
     }

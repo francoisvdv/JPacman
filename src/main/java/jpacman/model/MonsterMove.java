@@ -84,6 +84,8 @@ public class MonsterMove extends Move
     
     /**
      * Undo the move.
+     * @post The move is undone. If the player has died as a result of this move
+     * the player lives again.
      */
     @Override
     public void undo()

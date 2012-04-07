@@ -113,6 +113,9 @@ public class PlayerMove extends Move
     
     /**
      * Undo the move.
+     * @post The move is undone. The amount of food eaten is reset to before the
+     * move and if the player has died as a result of the move it is alive
+     * again.
      */
     @Override
     public void undo()

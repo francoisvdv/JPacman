@@ -291,8 +291,9 @@ public class Game
      *            Horizontal movement
      * @param dy
      *            Vertical movement
+     * @return Returns the PlayerMove. This can be used to undo the move.
      */
-    protected void movePlayer(int dx, int dy)
+    protected PlayerMove movePlayer(int dx, int dy)
     {
         assert invariant();
         assert !gameOver() : "can only move when game isn't over";
@@ -302,6 +303,8 @@ public class Game
         applyMove(playerMove);
         getPlayer().setLastDirection(dx, dy);
         assert invariant();
+        
+        return playerMove;
     }
 
     /**
@@ -315,8 +318,9 @@ public class Game
      *            Horizontal movement
      * @param dy
      *            Vertical movement
+     * @return Returns the MonsterMove. This can be used to undo the move.
      */
-    protected void moveMonster(Monster monster, int dx, int dy)
+    protected MonsterMove moveMonster(Monster monster, int dx, int dy)
     {
         assert invariant();
         assert !gameOver() : "can only move when game isn't over";
@@ -325,6 +329,8 @@ public class Game
         MonsterMove monsterMove = new MonsterMove(monster, targetCell);
         applyMove(monsterMove);
         assert invariant();
+        
+        return monsterMove;
     }
     
     

@@ -206,7 +206,8 @@ public abstract class Move
     
     /**
      * Undo the move.
-     * @post The move is 
+     * @post The move is undone. The mover is in the same position as it was
+     * before the move.
      */
     protected void undo()
     {
