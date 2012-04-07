@@ -105,7 +105,7 @@ public class GameTest extends GameTestCase
         getTheGame().undoLastMove();
         assertFalse(getTheGame().canUndo());
         
-
+        
         getTheGame().undoLastMove();
         //didn't throw assertion error, so that is fine
         getTheGame().movePlayer(1, 0);

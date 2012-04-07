@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.omg.CORBA.portable.Delegate;
 
 
 /**
@@ -199,6 +200,10 @@ public class EngineTest extends GameTestCase
             letPlayerWin();
             assertTrue(theEngine.invariant());
             assertTrue(theEngine.inDiedState());
+            
+            //Undo from player died state
+            theEngine.undoLastMove();
+            //this didn't throw assertion error, so this is fine
     }
     
     @Test
@@ -218,6 +223,44 @@ public class EngineTest extends GameTestCase
             killPlayerByPlayerMove();
             assertTrue(theEngine.invariant());
             assertTrue(theEngine.inWonState());
+            
+            //Undo from player won state
+            theEngine.undoLastMove();
+            //didn't throw assertion error, so this is fine
+    }
+    
+    @Test
+    public void testImpossibleTransitions3()
+    {
+        //Undo from starting state
+        boolean assertionFailed = false;
+        try
+        {
+            theEngine.undoLastMove();
+        }
+        catch(AssertionError ae)
+        {
+            assertionFailed = true;
+        }
+        
+        assertTrue(assertionFailed);
+        
+        //Undo from playing state
+        theEngine.start();
+        try
+        {
+            theEngine.undoLastMove();
+        }
+        catch(AssertionError ae)
+        {
+            assertionFailed = true;
+        }
+        
+        //Undo from halted state
+        theEngine.quit();
+        movePlayerToCell(getEmptyCell());
+        theEngine.undoLastMove();
+        //didn't throw assertion error, so fine
     }
     
     void letPlayerWin()

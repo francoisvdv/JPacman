@@ -245,7 +245,7 @@ public class Engine extends Observable
      *            Vertical offset
      */
     public void moveMonster(Monster monster, int dx, int dy) 
-   {
+    {
         synchronized (this)
         {
             assert invariant();
@@ -259,6 +259,24 @@ public class Engine extends Observable
     }
 
 
+    /**
+     * Undo the last move done by the player or a monster.
+     * @pre The game must be in halted, player won or player died state.
+     */
+    public void undoLastMove()
+    {
+        synchronized(this)
+        {
+            assert invariant();
+            assert inHaltedState() || inGameOverState();
+            
+            theGame.undoLastMove();
+            notifyViewers();
+            
+            assert invariant();
+        }
+    }
+    
 
     /**
      * Warn the observers that the state has changed.
