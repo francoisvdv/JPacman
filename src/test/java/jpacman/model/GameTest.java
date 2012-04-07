@@ -2,6 +2,8 @@ package jpacman.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -79,4 +81,42 @@ public class GameTest extends GameTestCase
         assertEquals(-1, getTheGame().getPlayerLastDy());
     }
 
+    @Test
+    public void testUndoStack()
+    {
+        //move right to empty cell
+        getTheGame().movePlayer(1, 0);
+        
+        assertTrue(getTheGame().canUndo());
+        getTheGame().undoLastMove();
+        assertFalse(getTheGame().canUndo());
+        
+        
+        //move right to empty cell
+        getTheGame().movePlayer(1, 0);
+        assertTrue(getTheGame().canUndo());
+        //move up to empty cell
+        getTheGame().movePlayer(0, -1);
+        assertTrue(getTheGame().canUndo());
+        
+        getTheGame().undoLastMove();
+        assertTrue(getTheGame().canUndo());
+        
+        getTheGame().undoLastMove();
+        assertFalse(getTheGame().canUndo());
+        
+        
+        boolean assertionFailed = false;
+        try
+        {
+            getTheGame().undoLastMove();
+        }
+        catch(AssertionError ae)
+        {
+            assertionFailed = true;
+        }
+        assertTrue(assertionFailed);
+        getTheGame().movePlayer(1, 0);
+        assertTrue(getTheGame().canUndo());
+    }
 }

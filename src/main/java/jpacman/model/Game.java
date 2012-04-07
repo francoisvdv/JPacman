@@ -2,6 +2,7 @@ package jpacman.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 
 /**
@@ -42,6 +43,11 @@ public class Game
      */
     private String[] theMap = null;
 
+    /**
+     * The moves the monster or the player has done.
+     */
+    private Stack<Move> moves = new Stack<Move>();
+    
 
     /**
      * Create a new Game using a default map.
@@ -291,7 +297,7 @@ public class Game
      *            Horizontal movement
      * @param dy
      *            Vertical movement
-     * @return Returns the PlayerMove. This can be used to undo the move.
+     * @return Returns the PlayerMove.
      */
     protected PlayerMove movePlayer(int dx, int dy)
     {
@@ -303,6 +309,8 @@ public class Game
         applyMove(playerMove);
         getPlayer().setLastDirection(dx, dy);
         assert invariant();
+        
+        moves.push(playerMove);
         
         return playerMove;
     }
@@ -318,7 +326,7 @@ public class Game
      *            Horizontal movement
      * @param dy
      *            Vertical movement
-     * @return Returns the MonsterMove. This can be used to undo the move.
+     * @return Returns the MonsterMove.
      */
     protected MonsterMove moveMonster(Monster monster, int dx, int dy)
     {
@@ -329,6 +337,8 @@ public class Game
         MonsterMove monsterMove = new MonsterMove(monster, targetCell);
         applyMove(monsterMove);
         assert invariant();
+        
+        moves.push(monsterMove);
         
         return monsterMove;
     }
@@ -360,7 +370,21 @@ public class Game
         assert invariant();
     }
 
-
+    /**
+     * Undo the last move by the player or a monster.
+     * @pre Undo should be possible, i.e. a move should have been done.
+     */
+    public void undoLastMove()
+    {
+        assert invariant();
+        assert canUndo();
+        
+        Move m = moves.pop();
+        m.undo();
+        
+        assert invariant();
+    }
+    
     /**
      * Check if the player has died. Precondition: initialization completed.
      *
@@ -444,5 +468,14 @@ public class Game
     public char[] getGuestCodes(int x, int y)
     {
         return getBoard().guestCodes(x, y);
+    }
+    
+    /**
+     * Return whether or not we can undo a move.
+     * @return A value indicating if we can undo.
+     */
+    public boolean canUndo()
+    {
+        return moves.size() != 0;
     }
 }
