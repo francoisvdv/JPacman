@@ -93,18 +93,4 @@ public class MonsterMoveTest extends MoveTest
         moveMonsterToCell(getPlayerCell()); //monster shouldn't move
         assertEquals(oldLocation, getTheMonster().getLocation());
     }
-    
-    @Test
-    public void testMoveMonsterToCell()
-    {
-        assertFalse(getTheMonster().getLocation() == getEmptyCell());
-        moveMonsterToCell(getEmptyCell());
-        assertEquals(getTheMonster().getLocation(), getEmptyCell());
-    }
-    void moveMonsterToCell(Cell target)
-    {
-        getTheGame().moveMonster(getTheMonster(),
-                target.getX() - getTheMonster().getLocation().getX(),
-                target.getY() - getTheMonster().getLocation().getY());
-    }
 }

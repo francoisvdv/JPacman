@@ -91,4 +91,34 @@ public abstract class MoveTest extends GameTestCase
      * @return Instantiated Move subclass object.
      */
     protected abstract Move createMove(Cell target);
+    
+    @Test
+    public void testMovePlayerToCell()
+    {
+        //A simple test for the helper function
+                
+        assertFalse(getThePlayer().getLocation() == getEmptyCell());
+        movePlayerToCell(getEmptyCell());
+        assertEquals(getThePlayer().getLocation(), getEmptyCell());
+    }
+    void movePlayerToCell(Cell target)
+    {
+        getTheGame().movePlayer(
+                target.getX() - getThePlayer().getLocation().getX(),
+                target.getY() - getThePlayer().getLocation().getY());
+    }
+    
+    @Test
+    public void testMoveMonsterToCell()
+    {
+        assertFalse(getTheMonster().getLocation() == getEmptyCell());
+        moveMonsterToCell(getEmptyCell());
+        assertEquals(getTheMonster().getLocation(), getEmptyCell());
+    }
+    void moveMonsterToCell(Cell target)
+    {
+        getTheGame().moveMonster(getTheMonster(),
+                target.getX() - getTheMonster().getLocation().getX(),
+                target.getY() - getTheMonster().getLocation().getY());
+    }
 }

@@ -203,7 +203,30 @@ public abstract class Move
         assert moveDone();
         assert isInitialized();
     }
+    
+    /**
+     * Undo the move.
+     * @post The move is 
+     */
+    protected void undo()
+    {
+        assert isInitialized();
+        
+        if(moveDone())
+        {
+            assert to.contains(mover);
+            assert !from.contains(mover);
+            
+            mover.deoccupy();
+            mover.occupy(from);
 
+            assert !to.contains(mover);
+            assert from.contains(mover);
+        }
+
+        assert isInitialized();
+    }
+    
     /**
      * Invoke this method while precomputing the effects of this move if it is
      * detected that the player will die because of this move. Precondition:

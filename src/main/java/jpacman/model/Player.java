@@ -82,6 +82,19 @@ public class Player extends MovingGuest
     }
 
     /**
+     * The player has been killed, make him alive again.
+     * Precondition: the player has died.
+     */
+    protected void reanimate()
+    {
+        assert playerInvariant();
+        assert !living();
+        alive = true;
+        assert living();
+        assert playerInvariant();
+    }
+    
+    /**
      * The player has been killed by a monster -- set the state accordingly.
      * Precondition: not killed before.
      */

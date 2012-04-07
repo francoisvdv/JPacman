@@ -81,4 +81,28 @@ public class MonsterMove extends Move
         super.apply();
         assert invariant();
     }
+    
+    /**
+     * Undo the move.
+     */
+    @Override
+    public void undo()
+    {        
+        assert invariant();
+        
+        super.undo();
+
+        if(playerWillDie())
+        {
+            for(Guest g : getArrivalCell().getGuests())
+            {
+                if(g instanceof Player)
+                {
+                    ((Player)g).reanimate();
+                }
+            }
+        }
+        
+        assert invariant();
+    }
 }

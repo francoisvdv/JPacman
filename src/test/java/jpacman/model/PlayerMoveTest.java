@@ -117,20 +117,4 @@ public class PlayerMoveTest extends MoveTest
         movePlayerToCell(getPlayerCell()); //player shouldn't move
         assertEquals(oldLocation, getThePlayer().getLocation());
     }
-    
-    @Test
-    public void testMovePlayerToCell()
-    {
-        //A simple test for the helper function
-                
-        assertFalse(getThePlayer().getLocation() == getEmptyCell());
-        movePlayerToCell(getEmptyCell());
-        assertEquals(getThePlayer().getLocation(), getEmptyCell());
-    }
-    void movePlayerToCell(Cell target)
-    {
-        getTheGame().movePlayer(
-                target.getX() - getThePlayer().getLocation().getX(),
-                target.getY() - getThePlayer().getLocation().getY());
-    }
 }
