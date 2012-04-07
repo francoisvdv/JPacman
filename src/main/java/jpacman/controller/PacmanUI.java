@@ -61,6 +61,11 @@ public class PacmanUI extends JFrame implements KeyListener, Observer
     private JTextField statusField;
     
     /**
+     * The undo button.
+     */
+    private JButton undoButton;
+    
+    /**
      * The actual text that is shown in the status field.
      */
     public enum Status
@@ -110,6 +115,16 @@ public class PacmanUI extends JFrame implements KeyListener, Observer
         });
         startButton.requestFocusInWindow();
 
+        undoButton = new JButton("Undo");
+        undoButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+                getController().undo();
+                // ensure the full window has the focus.
+                requestFocusInWindow();
+            }
+        });
+        
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
@@ -132,6 +147,7 @@ public class PacmanUI extends JFrame implements KeyListener, Observer
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(startButton);
+        buttonPanel.add(undoButton);
         buttonPanel.add(quitButton);
         buttonPanel.add(exitButton);
 
@@ -292,6 +308,7 @@ public class PacmanUI extends JFrame implements KeyListener, Observer
     private void updateStatus()
     {
         String text = null;
+        undoButton.setEnabled(false);
         if (engine.inStartingState())
         {
             text = Status.STARTING.statusText();
@@ -303,14 +320,17 @@ public class PacmanUI extends JFrame implements KeyListener, Observer
         if (engine.inDiedState())
         {
             text = Status.LOST.statusText();
+            undoButton.setEnabled(true);
         }
         if (engine.inWonState())
         {
             text = Status.WON.statusText();
+            undoButton.setEnabled(true);
         }
         if (engine.inHaltedState())
         {
             text = Status.HALTED.statusText();
+            undoButton.setEnabled(true);
         }
         assert text != null : "Illegal state";
         statusField.setText(text);

@@ -125,7 +125,16 @@ public class Pacman
         assert invariant();
     }
 
-
+    /**
+     * Undo the last move
+     */
+    public void undo()
+    {
+        assert invariant();
+        theEngine.undoLastMove();
+        assert invariant();
+    }
+    
     /**
      * Terminate the game.
      */
