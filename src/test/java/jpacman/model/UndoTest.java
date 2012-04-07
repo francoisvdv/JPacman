@@ -18,7 +18,7 @@ import org.junit.Test;
  * @author Arie van Deursen; August 21, 2003.
  * @version $Id: PlayerMoveTest.java 4260 2011-01-29 10:12:29Z arievandeursen $
  */
-public class UndoPlayerMoveTest extends MoveTest
+public class UndoTest extends MoveTest
 {
    
     /**

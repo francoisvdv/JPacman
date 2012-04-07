@@ -35,8 +35,7 @@ import jpacman.model.*;
     ObserverTest.class,
     PlayerMoveTest.class,
     MonsterMoveTest.class,
-    UndoPlayerMoveTest.class,
-    UndoMonsterMoveTest.class,
+    UndoTest.class,
     ImageFactoryTest.class,
     GuestTest.class,
     GameLoaderTest.class
