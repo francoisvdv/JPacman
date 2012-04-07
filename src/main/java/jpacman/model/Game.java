@@ -46,7 +46,7 @@ public class Game
     /**
      * The moves the monster or the player has done.
      */
-    private Stack<Move> moves = new Stack<Move>();
+    private final Stack<Move> moves = new Stack<Move>();
     
 
     /**

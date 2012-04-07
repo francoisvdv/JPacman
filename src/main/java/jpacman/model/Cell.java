@@ -29,7 +29,7 @@ public class Cell
     /**
      * The guests occupying the cell.
      */
-    private ArrayList<Guest> guests = new ArrayList<Guest>();
+    private final ArrayList<Guest> guests = new ArrayList<Guest>();
 
     /**
      * Create a new cell at a given position on the board.

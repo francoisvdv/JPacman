@@ -140,18 +140,18 @@ public class Board
         
         char[] result;
         
-        if (guests.size() > 0)
+        if (guests.isEmpty())
+        {
+            result = new char[1];
+            result[0] = Guest.EMPTY_TYPE;
+        }
+        else
         {
             result = new char[guests.size()];
             for (int i = 0; i < result.length; i++)
             {
                 result[i] = guests.get(i).guestType();
             }
-        }
-        else
-        {
-            result = new char[1];
-            result[0] = Guest.EMPTY_TYPE;
         }
         
         assert invariant();
