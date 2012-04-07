@@ -371,16 +371,18 @@ public class Game
     }
 
     /**
-     * Undo the last move by the player or a monster.
-     * @pre Undo should be possible, i.e. a move should have been done.
+     * Undo the last move by the player or a monster. If there are no moves to
+     * be undone, simply do nothing.
      */
     public void undoLastMove()
     {
         assert invariant();
-        assert canUndo();
-        
-        Move m = moves.pop();
-        m.undo();
+
+        if(canUndo())
+        {
+            Move m = moves.pop();
+            m.undo();
+        }
         
         assert invariant();
     }

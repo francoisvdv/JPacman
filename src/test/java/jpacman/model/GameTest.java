@@ -105,17 +105,9 @@ public class GameTest extends GameTestCase
         getTheGame().undoLastMove();
         assertFalse(getTheGame().canUndo());
         
-        
-        boolean assertionFailed = false;
-        try
-        {
-            getTheGame().undoLastMove();
-        }
-        catch(AssertionError ae)
-        {
-            assertionFailed = true;
-        }
-        assertTrue(assertionFailed);
+
+        getTheGame().undoLastMove();
+        //didn't throw assertion error, so that is fine
         getTheGame().movePlayer(1, 0);
         assertTrue(getTheGame().canUndo());
     }
