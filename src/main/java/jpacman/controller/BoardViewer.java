@@ -218,7 +218,7 @@ public class BoardViewer extends JPanel
         
         char[] guestCodes = engine.getGuestCodes(x, y);
 
-        for(char gc : guestCodes)
+        for (char gc : guestCodes)
         {
             Color fillColor = guestColor(gc);
             Image img = guestImage(gc);
@@ -267,8 +267,7 @@ public class BoardViewer extends JPanel
     }
     
     /**
-     * @param x x-coordinate on board
-     * @param y y-coordinate on board
+     * @param guestCode the code of the guest to get the image for
      * @return the appropriate image for the content
      * of the cell at (x,y).
      */
@@ -293,8 +292,7 @@ public class BoardViewer extends JPanel
     }
     
     /**
-     * @param x x-coordinate on board
-     * @param y y-coordinate on board
+     * @param guestCode the code of the guest to get the color for
      * @return the appropriate color for the content
      * of the cell at (x,y).
      */

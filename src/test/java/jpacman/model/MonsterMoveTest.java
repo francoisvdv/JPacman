@@ -55,7 +55,7 @@ public class MonsterMoveTest extends MoveTest
         return getMove();
     }
 
-    /** Test the monster colliding with another monster */
+    /** Test the monster colliding with another monster. */
     @Test
     public void testMonsterCollision()
     {        
@@ -67,7 +67,7 @@ public class MonsterMoveTest extends MoveTest
         moveMonsterToCell(getMonsterCell(1)); //monster shouldn't move
         assertEquals(oldLocation, getTheMonster().getLocation());
     }
-    /** Test the monster colliding with a Player */
+    /** Test the monster colliding with a Player. */
     @Test
     public void testPlayerCollision()
     {
@@ -81,7 +81,7 @@ public class MonsterMoveTest extends MoveTest
         
         assertFalse(getThePlayer().living());
     }
-    /** Test the monster colliding with a wall */
+    /** Test the monster colliding with a wall. */
     @Test
     public void testWallCollision()
     {

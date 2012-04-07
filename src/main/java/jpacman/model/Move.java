@@ -103,9 +103,9 @@ public abstract class Move
             assert to != null;
 
             ArrayList<Guest> targetGuests = to.getGuests();
-            for(Guest g : targetGuests)
+            for (Guest g : targetGuests)
             {
-                if(tryMoveToGuest(g) == false)
+                if (tryMoveToGuest(g) == false)
                     cellAvailable = false;
             }
         }
@@ -213,7 +213,7 @@ public abstract class Move
     {
         assert isInitialized();
         
-        if(moveDone())
+        if (moveDone())
         {
             assert to.contains(mover);
             assert !from.contains(mover);

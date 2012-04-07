@@ -43,6 +43,9 @@ public class UndoTest extends MoveTest
         return getMove();
     }
     
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo1()
     {
@@ -55,6 +58,9 @@ public class UndoTest extends MoveTest
         move.undo();
         assertEquals(oldCell, getThePlayer().getLocation());    
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo2()
     {
@@ -72,6 +78,9 @@ public class UndoTest extends MoveTest
         assertEquals(oldCell, getThePlayer().getLocation());
         assertEquals(oldPoints, getThePlayer().getPointsEaten());
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo3()
     {
@@ -84,6 +93,9 @@ public class UndoTest extends MoveTest
         move.undo();
         assertEquals(oldCell, getTheMonster().getLocation());
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo4()
     {
@@ -98,6 +110,9 @@ public class UndoTest extends MoveTest
         assertEquals(oldCell, getThePlayer().getLocation());
         assertEquals(living, getThePlayer().living());
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo5()
     {
@@ -112,6 +127,9 @@ public class UndoTest extends MoveTest
         assertEquals(oldCell, getTheMonster().getLocation());
         assertEquals(living, getThePlayer().living());
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo6()
     {
@@ -132,6 +150,9 @@ public class UndoTest extends MoveTest
         move1.undo();
         assertFalse(getTheGame().playerWon());
     }
+    /**
+     * Test for undoing moves.
+     */
     @Test
     public void testUndo7()
     {

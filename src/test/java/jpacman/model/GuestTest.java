@@ -67,6 +67,9 @@ public class GuestTest
         assertThat(theGuest.getLocation(), nullValue());
     }
 
+    /**
+     * Test occupying and deoccupying cells with guests.
+     */
     @Test
     public void testOccupyDeoccupy()
     {
@@ -105,6 +108,9 @@ public class GuestTest
         assertTrue(failureGenerated);
     }
     
+    /**
+     * Test adding a guest to a cell.
+     */
     @Test
     public void testAddGuest()
     {
@@ -124,6 +130,9 @@ public class GuestTest
         assertTrue(failureGenerated);       
     }
     
+    /**
+     * Test for adding multiple guests to one cell.
+     */
     @Test
     public void testMultipleGuests()
     {

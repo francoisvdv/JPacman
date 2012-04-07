@@ -92,6 +92,9 @@ public abstract class MoveTest extends GameTestCase
      */
     protected abstract Move createMove(Cell target);
     
+    /**
+     * Test for the helper function movePlayerToCell.
+     */
     @Test
     public void testMovePlayerToCell()
     {
@@ -101,6 +104,11 @@ public abstract class MoveTest extends GameTestCase
         movePlayerToCell(getEmptyCell());
         assertEquals(getThePlayer().getLocation(), getEmptyCell());
     }
+    /**
+     * Move player to cell.
+     * @param target The target cell.
+     * @return The PlayerMove object.
+     */
     PlayerMove movePlayerToCell(Cell target)
     {
         return getTheGame().movePlayer(
@@ -108,6 +116,9 @@ public abstract class MoveTest extends GameTestCase
                 target.getY() - getThePlayer().getLocation().getY());
     }
     
+    /**
+     * Test for the helper function moveMonsterToCell.
+     */
     @Test
     public void testMoveMonsterToCell()
     {
@@ -115,6 +126,11 @@ public abstract class MoveTest extends GameTestCase
         moveMonsterToCell(getEmptyCell());
         assertEquals(getTheMonster().getLocation(), getEmptyCell());
     }
+    /**
+     * Move monster to the specified cell.
+     * @param target The target cell.
+     * @return The MonsterMove object.
+     */
     MonsterMove moveMonsterToCell(Cell target)
     {
         return getTheGame().moveMonster(getTheMonster(),

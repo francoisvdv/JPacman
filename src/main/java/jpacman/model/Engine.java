@@ -265,7 +265,7 @@ public class Engine extends Observable
      */
     public void undoLastMove()
     {
-        synchronized(this)
+        synchronized (this)
         {
             assert invariant();
             assert inHaltedState() || inGameOverState();

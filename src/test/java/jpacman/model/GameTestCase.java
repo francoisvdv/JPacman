@@ -1,7 +1,6 @@
 package jpacman.model;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -86,7 +85,7 @@ public class GameTestCase
         playerCell = theBoard.getCell(1, 1);
         emptyCell = theBoard.getCell(2, 1);
 
-        theFood = (Food)foodCell.getGuests().get(0);
+        theFood = (Food) foodCell.getGuests().get(0);
         thePlayer = theGame.getPlayer();
         theMonster = (Monster) monsterCell.getGuests().get(0);
     }
@@ -146,6 +145,7 @@ public class GameTestCase
     }
 
     /**
+     * @param index The monster index in the monster list.
      * @pre index < monster count in game
      * @return One (fixed) of the monsters in the game.
      */
@@ -188,7 +188,8 @@ public class GameTestCase
     }
     
     /**
-     * @ pre index < monster count in game
+     * @param index The index of the monster in the list.
+     * @pre index < monster count in game
      * @return The location of the given monster.
      */
     public Cell getMonsterCell(int index)

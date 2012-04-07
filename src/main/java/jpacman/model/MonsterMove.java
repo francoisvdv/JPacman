@@ -17,8 +17,8 @@ public class MonsterMove extends Move
     /**
      * Create a move for the given monster to a given target cell.
      *
-     * @param player
-     *            the Player to be moved
+     * @param monster
+     *            the monster to be moved
      * @param newCell
      *            the target location.
      * @see jpacman.model.Move
@@ -94,13 +94,13 @@ public class MonsterMove extends Move
         
         super.undo();
 
-        if(playerWillDie())
+        if (playerWillDie())
         {
-            for(Guest g : getArrivalCell().getGuests())
+            for (Guest g : getArrivalCell().getGuests())
             {
-                if(g instanceof Player)
+                if (g instanceof Player)
                 {
-                    ((Player)g).reanimate();
+                    ((Player) g).reanimate();
                 }
             }
         }

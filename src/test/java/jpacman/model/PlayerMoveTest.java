@@ -57,13 +57,7 @@ public class PlayerMoveTest extends MoveTest
         return getMove();
     }
 
-    @Test
-    public void testOutOfBorderMove()
-    {
-        
-    }
-    
-    /** Test the player colliding with Food */
+    /** Test the player colliding with Food. */
     @Test
     public void testFoodCollision()
     {
@@ -79,7 +73,7 @@ public class PlayerMoveTest extends MoveTest
         
         assertTrue(getThePlayer().getPointsEaten() > oldFoodEaten);
     }
-    /** Test the player colliding with a Monster */
+    /** Test the player colliding with a Monster. */
     @Test
     public void testMonsterCollision()
     {        
@@ -93,7 +87,7 @@ public class PlayerMoveTest extends MoveTest
         
         assertFalse(getThePlayer().living());
     }
-    /** Test the player colliding with another Player */
+    /** Test the player colliding with another Player. */
     @Test
     public void testPlayerCollision()
     {
@@ -105,7 +99,7 @@ public class PlayerMoveTest extends MoveTest
         movePlayerToCell(getPlayerCell()); //player shouldn't move
         assertEquals(oldLocation, getThePlayer().getLocation());
     }
-    /** Test the player colliding with a wall */
+    /** Test the player colliding with a wall. */
     @Test
     public void testWallCollision()
     {

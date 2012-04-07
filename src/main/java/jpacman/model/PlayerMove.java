@@ -124,13 +124,13 @@ public class PlayerMove extends Move
         
         super.undo();
         
-        if(food != null)
+        if (food != null)
         {
             //food has been eaten by this move, so we need to restore that
             food.occupy(getArrivalCell());
             thePlayer.eat(-food.getPoints());
         }
-        if(playerWillDie())
+        if (playerWillDie())
         {
             //the player has died as a result of the move done. We need to
             //bring the player back alive now.

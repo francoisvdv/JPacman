@@ -126,7 +126,7 @@ public class Pacman
     }
 
     /**
-     * Undo the last move
+     * Undo the last move.
      */
     public void undo()
     {

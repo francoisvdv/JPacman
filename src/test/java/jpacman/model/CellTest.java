@@ -87,26 +87,26 @@ public class CellTest
         assertFalse(lr.adjacent(aBoard.getCell(2, 3)));
     }
     
-    /*
+    /**
      * Test if tunnels work.
      */
     @Test
     public void testTunnels()
     {
         //moving left through the wall
-        assertEquals(aBoard.getCell(WIDTH-1, 0), 
+        assertEquals(aBoard.getCell(WIDTH - 1, 0), 
                 aBoard.getCell(0, 0).cellAtOffset(-1, 0));
         
         //moving right through the wall
         assertEquals(aBoard.getCell(0, 0),
-                aBoard.getCell(WIDTH-1, 0).cellAtOffset(1, 0));
+                aBoard.getCell(WIDTH - 1, 0).cellAtOffset(1, 0));
         
         //moving up through the wall
-        assertEquals(aBoard.getCell(0, HEIGHT-1), 
+        assertEquals(aBoard.getCell(0, HEIGHT - 1), 
                 aBoard.getCell(0, 0).cellAtOffset(0, -1));
         
         //moving down through wall
         assertEquals(aBoard.getCell(0, 0), 
-                aBoard.getCell(0, HEIGHT-1).cellAtOffset(0, 1));
+                aBoard.getCell(0, HEIGHT - 1).cellAtOffset(0, 1));
     }
 }

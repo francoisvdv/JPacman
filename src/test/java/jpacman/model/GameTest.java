@@ -81,6 +81,9 @@ public class GameTest extends GameTestCase
         assertEquals(-1, getTheGame().getPlayerLastDy());
     }
 
+    /**
+     * Tests related to the undo stack in the game class.
+     */
     @Test
     public void testUndoStack()
     {

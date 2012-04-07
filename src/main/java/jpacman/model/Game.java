@@ -322,6 +322,8 @@ public class Game
      * possible, it has been carried out, and the game has been updated to
      * reflect the new situation.
      *
+     * @param monster
+     *            The monster to move
      * @param dx
      *            Horizontal movement
      * @param dy
@@ -378,7 +380,7 @@ public class Game
     {
         assert invariant();
 
-        if(canUndo())
+        if (canUndo())
         {
             Move m = moves.pop();
             m.undo();

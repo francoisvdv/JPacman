@@ -1,14 +1,11 @@
 package jpacman.model;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.omg.CORBA.portable.Delegate;
 
 
 /**
@@ -67,6 +64,9 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inPlayingState());
     }
     
+    /**
+     * Test if player is correctly killed by player move.
+     */
     @Test
     public void testPlayerKilledByPlayerMove()
     {
@@ -85,6 +85,9 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inStartingState());
     }
     
+    /**
+     * Test if player is correctly killed by monster move.
+     */
     @Test
     public void testPlayerKilledByMonsterMove()
     {
@@ -117,6 +120,9 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inStartingState());
     }
     
+    /**
+     * Test if states are correct regarding player win.
+     */
     @Test
     public void testPlayerWon()
     {
@@ -142,6 +148,9 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inStartingState());
     }
     
+    /**
+     * Test set of satte transitions.
+     */
     @Test
     public void testStateTransitions1()
     {      
@@ -208,6 +217,9 @@ public class EngineTest extends GameTestCase
             assertTrue(theEngine.inHaltedState());
     }
     
+    /**
+     * Test set of state transitions.
+     */
     @Test
     public void testStateTransitions2()
     {
@@ -233,6 +245,9 @@ public class EngineTest extends GameTestCase
             assertTrue(theEngine.inHaltedState());
     }
     
+    /**
+     * Test set of state transitions.
+     */
     @Test
     public void testStateTransitions3()
     {
@@ -242,7 +257,7 @@ public class EngineTest extends GameTestCase
         {
             theEngine.undoLastMove();
         }
-        catch(AssertionError ae)
+        catch (AssertionError ae)
         {
             assertionFailed = true;
         }
@@ -255,7 +270,7 @@ public class EngineTest extends GameTestCase
         {
             theEngine.undoLastMove();
         }
-        catch(AssertionError ae)
+        catch (AssertionError ae)
         {
             assertionFailed = true;
         }
@@ -269,6 +284,9 @@ public class EngineTest extends GameTestCase
         assertTrue(theEngine.inHaltedState());
     }
     
+    /**
+     * Let player win.
+     */
     void letPlayerWin()
     {
         Cell foodCell1 = getTheGame().getBoard().getCell(0, 1);
@@ -276,15 +294,24 @@ public class EngineTest extends GameTestCase
         movePlayerToCell(foodCell1);
         movePlayerToCell(foodCell2);
     }
+    /**
+     * Kill player by a monster move.
+     */
     void killPlayerByMonsterMove()
     {
         moveMonsterToCell(getPlayerCell());
     }
+    /**
+     * Kill player by a player move.
+     */
     void killPlayerByPlayerMove()
     {
         movePlayerToCell(getMonsterCell());
     }
     
+    /**
+     * Test the helper method movePlayerToCell.
+     */
     @Test
     public void testMovePlayerToCell()
     {
@@ -295,12 +322,19 @@ public class EngineTest extends GameTestCase
         movePlayerToCell(getEmptyCell());
         assertEquals(getThePlayer().getLocation(), getEmptyCell());
     }
+    /**
+     * Move the player to the specified target cell.
+     * @param target The target cell.
+     */
     protected void movePlayerToCell(Cell target)
     {
         theEngine.movePlayer(
                 target.getX() - getThePlayer().getLocation().getX(),
                 target.getY() - getThePlayer().getLocation().getY());
     }
+    /**
+     * Test the helper method moveMonsterToCell.
+     */
     @Test
     public void testMoveMonsterToCell()
     {
@@ -311,6 +345,10 @@ public class EngineTest extends GameTestCase
         moveMonsterToCell(getEmptyCell());
         assertEquals(getTheMonster().getLocation(), getEmptyCell());
     }
+    /**
+     * Move the monster to the specified target cell.
+     * @param target The target cell.
+     */
     void moveMonsterToCell(Cell target)
     {
         theEngine.moveMonster(getTheMonster(),

@@ -140,10 +140,10 @@ public class Board
         
         char[] result;
         
-        if(guests.size() > 0)
+        if (guests.size() > 0)
         {
             result = new char[guests.size()];
-            for(int i = 0; i < result.length; i++)
+            for (int i = 0; i < result.length; i++)
             {
                 result[i] = guests.get(i).guestType();
             }
@@ -169,7 +169,7 @@ public class Board
      */
     public boolean withinBorders(int x, int y)
     {
-        if(x >= 0 && x < width && y >= 0 && y < height) 
+        if (x >= 0 && x < width && y >= 0 && y < height) 
             return true;
         
         return false;

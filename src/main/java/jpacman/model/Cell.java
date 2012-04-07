@@ -76,9 +76,9 @@ public class Cell
      */
      protected final boolean guestInvariant()
      {
-         for(Guest g : guests)
+         for (Guest g : guests)
          {
-             if(g.getLocation() != this)
+             if (g.getLocation() != this)
                  return false;
          }
          
@@ -114,7 +114,7 @@ public class Cell
     {
         assert aGuest.getLocation() == this;
         
-        if(!guests.contains(aGuest))
+        if (!guests.contains(aGuest))
             guests.add(aGuest);
     }
 
@@ -134,7 +134,7 @@ public class Cell
         assert aGuest != null;
         assert aGuest.getLocation() == null;
         
-        if(guests.contains(aGuest))
+        if (guests.contains(aGuest))
             guests.remove(aGuest);
     }
 
@@ -196,9 +196,9 @@ public class Cell
         int newx = (x + dx) % board.getWidth();
         int newy = (y + dy) % board.getHeight();
         
-        if(newx < 0)
+        if (newx < 0)
             newx += board.getWidth();
-        if(newy < 0)
+        if (newy < 0)
             newy += board.getHeight();
         
         assert getBoard().withinBorders(newx, newy);
@@ -230,12 +230,12 @@ public class Cell
         final String location = "[" + x + "," + y + "]";
         String inhabitants = "";
 
-        for(Guest g : guests)
+        for (Guest g : guests)
         {
             inhabitants += g.guestType() + " ";
         }
         
-        if(inhabitants.isEmpty())
+        if (inhabitants.isEmpty())
             inhabitants = String.valueOf(Guest.EMPTY_TYPE);
         
         return inhabitants + "@ " + location;
